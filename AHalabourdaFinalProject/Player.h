@@ -9,17 +9,19 @@ public:
 	Player(float startX, float startY);
 
 	void Move(float movementX, float movementY);
-
+	
 	const float GetSize() const { return size; };
 	const Color GetColour() const { return colour; }
 	Vector2 GetPosition() const { return position; }
 	float GetX() const { return position.x; };
 	float GetY() const { return position.y; };
 
+	void Draw() const;
+
 private:
 
 	const float size = 25.0f;
-	const Color colour { 255, 255, 255, 255 };
+	const Color colour { 0, 0, 0, 255 };
 
 	float speed = 3.0f;
 

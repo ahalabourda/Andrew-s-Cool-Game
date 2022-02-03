@@ -1,11 +1,12 @@
 #pragma once
 
-template <class T>
+template<class T>
 class ObjectPool
 {
 
 public:
 
+	ObjectPool<T>() = delete;
 	ObjectPool<T>(int desiredSize);
 	~ObjectPool<T>();
 
@@ -21,3 +22,5 @@ private:
 	T* items;
 
 };
+
+#include "ObjectPool.inl"

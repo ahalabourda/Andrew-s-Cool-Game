@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Bullet.h"
 #include <math.h>
 
@@ -11,6 +13,7 @@ void Bullet::Activate(Vector2 spawnPosition, float spawnRotation)
 	isActive = true;
 	position = spawnPosition;
 	rotation = spawnRotation;
+	begin = std::chrono::steady_clock::now();
 }
 
 void Bullet::Draw() const
@@ -26,6 +29,13 @@ void Bullet::Tick()
 
 		position.x += speed * cos(rotation);
 		position.y += speed * sin(rotation);
+
+		if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - begin).count() >= lifespanInMilliseconds) {
+
+			isActive = false;
+
+		}
+		
 	}
 
 }

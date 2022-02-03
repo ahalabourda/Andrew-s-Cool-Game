@@ -12,3 +12,10 @@ void Player::Move(float movementX, float movementY)
 	position.y += movementY * speed;
 
 }
+
+void Player::Draw() const
+{
+
+	DrawCircleV(position, size, colour);
+
+}

@@ -1,25 +1,49 @@
 // andrew's cool game! :)
 #include "raylib.h"
 #include <string>
+#include <chrono>
 #include "Player.h"
 #include "Bullet.h"
 #include "ObjectPool.h"
-#include "ObjectPool.cpp"
+#include "EnemyManager.h"
+#include "ChargeZone.h"
+#include <GameManager.h>
 
 int main(void)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    const int screenWidth = 1280;
+    const int screenHeight = 720;
+    const int tickRate = 60;
 
     InitWindow(screenWidth, screenHeight, "Andrew's Cool Game");
 
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+    SetTargetFPS(tickRate);               // Set our game to run at 60 frames-per-second
+    
+    // beast boy
+    GameManager gm;
 
-    Player player(250, 350);
+    
+    
+    //EnemyManager enemyManager(player);
 
-    auto bullets = new ObjectPool<Bullet>(10000);
+
+    // timer required to control game's tickrate
+    auto begin = std::chrono::steady_clock::now();
+
+
+    // wait for controller availability
+    while (!IsGamepadAvailable(0) && GetGamepadAxisCount(0) < 2) {
+
+        BeginDrawing();
+
+        ClearBackground(Color{ 25, 115, 175, 255 });
+        DrawText("Please connect a gamepad with two joysticks!", 190, 50, 20, BLACK);
+        
+        EndDrawing();
+    }
+
 
     //--------------------------------------------------------------------------------------
 
@@ -28,28 +52,17 @@ int main(void)
     {
         // Update
         //----------------------------------------------------------------------------------
-
-        if (IsGamepadAvailable(0) && GetGamepadAxisCount(0) >= 2) {
-
-            // movement
-            player.Move(GetGamepadAxisMovement(0, 0), GetGamepadAxisMovement(0, 1));
-
-            // shooting
-            if (GetGamepadAxisMovement(0, 2) || GetGamepadAxisMovement(0, 3)) {
-                bullets->GetNextAvailable()->Activate(player.GetPosition(), atan2(GetGamepadAxisMovement(0, 3), GetGamepadAxisMovement(0, 2)));
-
-                DrawText(std::to_string(atan2(GetGamepadAxisMovement(0, 3), GetGamepadAxisMovement(0, 2))).c_str(), 10, 50, 20, BLACK);
-            }
-
-        }
-
-        bullets->Tick();
+        
+        
+        gm.Tick();
 
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-        ClearBackground(Color{ 25, 115, 175, 255 });
+        ClearBackground(Color{ 0, 0, 0, 255 });
+
+        gm.Draw();
 
         DrawText("Welcome to Andrew's Cool Game", 190, 50, 20, BLACK);
 
@@ -70,10 +83,6 @@ int main(void)
         }
 
         
-        bullets->Draw();
-
-        // draw player
-        DrawCircleV(player.GetPosition(), player.GetSize(), player.GetColour());
 
         EndDrawing();
         //----------------------------------------------------------------------------------

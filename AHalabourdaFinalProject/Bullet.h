@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#include <chrono>
 class Bullet
 {
 
@@ -22,13 +23,14 @@ private:
 	Vector2 position{ 0, 0 };
 	float rotation = 0.0f;
 
-	Rectangle rect { 0, 0, 5, 20 };
+	std::chrono::steady_clock::time_point begin;
 
 	// TODO: struggling to make this static.. revisit later
+	const int lifespanInMilliseconds = 3000;
 	const float speed = 10.0f;
 	const float damage = 5.0f;
 	const float size = 3.0f;
 
-	Color colour{ 255, 255, 255, 255 };
+	Color colour{ 50, 50, 50, 255 };
 
 };
