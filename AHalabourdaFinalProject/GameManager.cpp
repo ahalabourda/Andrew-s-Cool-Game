@@ -13,7 +13,7 @@ void GameManager::Tick()
     // find active charge zone
     for (int i = 0; i < ARRAY_LENGTH(zones); i++) {
         
-        if (CheckCollisionCircleRec(player.GetPosition(), player.GetSize(), zones[i].GetTriggerRect())) {
+        if (CheckCollisionPointRec(player.GetPosition(), zones[i].GetTriggerRect())) {
             zones[i].SetIsActive(true);
         }
         else {

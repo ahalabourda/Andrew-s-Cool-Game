@@ -23,7 +23,7 @@ private:
 	const float size = 25.0f;
 	const Color colour { 0, 0, 0, 255 };
 
-	float speed = 3.0f;
+	float speed = 5.0f;
 
 	Vector2 position;
 	

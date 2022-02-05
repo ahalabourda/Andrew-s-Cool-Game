@@ -23,8 +23,8 @@ private:
 
 	Player player{ 250, 350 };
 
-	// bullet count is framerate * shots/sec + 2 for safety
-	ObjectPool<Bullet> bullets = ObjectPool<Bullet>(182);
+	// bullet count is framerate * shots/sec + 5 for safety
+	ObjectPool<Bullet> bullets = ObjectPool<Bullet>(185);
 
 	ChargeZone zones[4] = { ChargeZone(ChargeZone::ChargeableAbility::BulletCount), ChargeZone(ChargeZone::ChargeableAbility::FireRate), ChargeZone(ChargeZone::ChargeableAbility::Speed), ChargeZone(ChargeZone::ChargeableAbility::Damage) };
 

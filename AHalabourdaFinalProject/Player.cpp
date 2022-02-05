@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <algorithm>
 
 Player::Player(float startX, float startY)
 	: position(Vector2{ startX, startX })
@@ -8,8 +9,10 @@ Player::Player(float startX, float startY)
 void Player::Move(float movementX, float movementY)
 {
 
-	position.x += movementX * speed;
-	position.y += movementY * speed;
+	position.x = std::clamp(position.x + (movementX * speed), 0.0f, (float)GetScreenWidth());
+	position.y = std::clamp(position.y + (movementY * speed), 0.0f, (float)GetScreenHeight());
+
+	
 
 }
 
