@@ -6,8 +6,6 @@
 Enemy::Enemy()
 {
 
-	std::cout << "Enemy size: " << sizeof(Enemy) << std::endl;
-
 }
 
 void Enemy::Tick(const Vector2 & target)

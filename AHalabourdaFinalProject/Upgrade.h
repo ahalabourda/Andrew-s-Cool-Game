@@ -15,6 +15,6 @@ private:
 
 	UpgradeType thisUpgradeType;
 
-	int currentLevel = 0;
+	int currentLevel = 1;
 
 };
