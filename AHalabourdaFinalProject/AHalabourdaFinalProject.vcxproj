@@ -338,6 +338,8 @@
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Upgrade.cpp" />
+    <ClCompile Include="UpgradeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
@@ -347,6 +349,8 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Upgrade.h" />
+    <ClInclude Include="UpgradeManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ObjectPool.inl" />

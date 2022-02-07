@@ -1,12 +1,10 @@
 #pragma once
 #include <raylib.h>
+#include <Upgrade.h>
 class Player
 {
 
 public:
-
-	Player() = delete;
-	Player(float startX, float startY);
 
 	void Move(float movementX, float movementY);
 	
@@ -18,13 +16,21 @@ public:
 
 	void Draw() const;
 
+	int GetUpgradeLevel(Upgrade::UpgradeType type);
+
 private:
 
 	const float size = 25.0f;
 	const Color colour { 0, 0, 0, 255 };
 
+	// powerup abilities
+	int spread = 1;
+	int fireRate = 1;
+
 	float speed = 5.0f;
 
-	Vector2 position;
+	Vector2 position{ static_cast<float>(GetScreenWidth() / 2), static_cast<float>(GetScreenHeight() / 2) };
+
+	Upgrade upgrades[4] = { Upgrade(Upgrade::UpgradeType::MoveSpeed), Upgrade(Upgrade::UpgradeType::ScoreMultiplier), Upgrade(Upgrade::UpgradeType::Damage), Upgrade(Upgrade::UpgradeType::Bomb)};
 	
 };

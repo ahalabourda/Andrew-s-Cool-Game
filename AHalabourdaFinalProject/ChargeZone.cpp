@@ -51,10 +51,19 @@ ChargeZone::ChargeZone(ChargeableAbility ca)
 			break;
 	}
 
-	colour.a = 200;
+	colour.a = 50;
 	activeColour.a = 255;
 
 	trigger = Rectangle{ x, y, (float)GetScreenWidth() / 2.0f, (float)GetScreenHeight() / 2.0f };
+
+}
+
+void ChargeZone::Tick()
+{
+
+	if (isActive) {
+		chargeValueCurrent += chargeAmountPerTick;
+	}
 
 }
 

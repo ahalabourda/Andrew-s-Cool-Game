@@ -12,8 +12,8 @@ public:
 
 	T* GetNextAvailable() const;
 	const int GetSize() const { return size; }
+	T* GetItems() const { return items; }
 
-	void Tick();
 	void Draw() const;
 
 private:

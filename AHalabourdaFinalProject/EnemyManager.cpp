@@ -8,8 +8,6 @@ EnemyManager::EnemyManager(Player thePlayer)
 void EnemyManager::Tick()
 {
 
-	for (int i = 0; i < enemies.GetSize(); i++) {
-		enemies.Tick();
-	}
+	
 
 }

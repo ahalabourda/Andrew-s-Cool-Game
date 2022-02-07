@@ -17,6 +17,7 @@ public:
 	bool GetIsActive() const { return isActive; }
 	void SetIsActive(bool newValue) { isActive = newValue; }
 
+	void Tick();
 	void Draw() const;
 
 private:
@@ -26,10 +27,10 @@ private:
 	Color colour{ 0, 0, 0, 255 };
 	Color activeColour{ 0, 0, 0, 255 };
 
-	bool isActive = false;
-
 	const float chargeValueMax = 100.0f;
 	float chargeValueCurrent = 0.0f;
 	float chargeAmountPerTick = .5f;
+
+	bool isActive = false;
 
 };

@@ -26,7 +26,7 @@ T* ObjectPool<T>::GetNextAvailable() const
 		}
 	}
 
-	throw 0;
+	throw std::exception("Couldn't get a poolable object");
 
 }
 
@@ -40,14 +40,4 @@ void ObjectPool<T>::Draw() const
 		}
 	}
 
-}
-
-template<class T>
-void ObjectPool<T>::Tick()
-{
-	for (int i = 0; i < size; i++) {
-		if (items[i].GetIsActive() == true) {
-			items[i].Tick();
-		}
-	}
 }
