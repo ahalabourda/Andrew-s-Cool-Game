@@ -1,8 +1,9 @@
 #pragma once
 #include "raylib.h"
+#include "Poolable.h"
 #include <chrono>
 
-class Enemy
+class Enemy : public Poolable
 {
 
 public:
@@ -29,7 +30,7 @@ private:
 	const float size = 20.0f;
 	const float growthRate = 1.1f;
 	const Color colour{ 200, 30, 30, 255 };
-	float speed = 2.0f;
+	const float speed = 2.0f;
 	Vector2 position { 0, 0 };
 	Rectangle rect{ 0, 0, size, size };
 	bool isActive = false;

@@ -66,6 +66,9 @@
     <ClInclude Include="Upgrade.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Poolable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ObjectPool.inl">

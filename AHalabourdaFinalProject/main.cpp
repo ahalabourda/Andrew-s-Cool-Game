@@ -12,7 +12,7 @@
 int main(void)
 {
 
-    srand(time(NULL));
+    srand(static_cast<int>(time(NULL)));
 
     // Initialization
     //--------------------------------------------------------------------------------------
@@ -78,6 +78,15 @@ int main(void)
                 DrawText("You died! :(", 50, 50, 100, WHITE);
                 std::string scoreString = "Final Score: " + std::to_string(gm.GetScore());
                 DrawText(scoreString.c_str(), 50, 200, 100, WHITE);
+
+                DrawText("Press any button to play again!", 50, GetScreenHeight() - 100, 50, WHITE);
+
+                // checks for any button
+                if (GetGamepadButtonPressed() != -1) {
+                    
+                    gm.Reset();
+
+                }
 
                 EndDrawing();
 

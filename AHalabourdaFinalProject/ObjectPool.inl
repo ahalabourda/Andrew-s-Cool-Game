@@ -1,3 +1,4 @@
+#include "ObjectPool.h"
 #pragma once
 
 template<class T>
@@ -40,4 +41,12 @@ void ObjectPool<T>::Draw() const
 		}
 	}
 
+}
+
+template<class T>
+inline void ObjectPool<T>::Reset()
+{
+	for (int i = 0; i < size; i++) {
+		items[i].Deactivate();
+	}
 }

@@ -1,7 +1,8 @@
 #pragma once
 #include "raylib.h"
+#include "Poolable.h"
 #include <chrono>
-class Bullet
+class Bullet : public Poolable
 {
 
 public:

@@ -4,8 +4,11 @@
 #include "Player.h"
 #include "ObjectPool.h"
 #include "Bullet.h"
+#include <chrono>
 
+#ifndef  ARRAY_LENGTH
 #define ARRAY_LENGTH(array) (sizeof((array))/sizeof((array)[0]))
+#endif // ! ARRAY_LENGTH
 
 class GameManager
 {
@@ -16,23 +19,22 @@ public:
 
 	enum class GameState { Setup, Playing, PostGame };
 
-	Player GetPlayer() const { return player; }
-
 	void Tick();
 	void Draw() const;
-
-	GameState GetCurrentGameState() const { return currentGameState; }
 
 	void StartGame();
 	void EndGame();
 	void Reset();
 
-	Color GetBackgroundColour() const { return backgroundColour; }
+	const GameState& GetCurrentGameState() const { return currentGameState; }
+	const Color & GetBackgroundColour() const { return backgroundColour; }
 	int GetScore() const { return score; }
+	int GetGameDurationInSeconds() const { return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - begin).count(); }
 
 private:
 
-	
+	void AttemptEnemySpawn();
+	void ProcessEnemies();
 
 	// useful timer
 	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
@@ -41,9 +43,9 @@ private:
 
 	// hud stuff
 	int score = 0;
-	Color backgroundColour{ 150, 150, 150, 255 };
-	Color hudColour{ 0, 0, 0, 200 };
-	int fontSize = 64;
+	const Color backgroundColour{ 150, 150, 150, 255 };
+	const Color hudColour{ 0, 0, 0, 200 };
+	const int fontSize = 64;
 
 	// upgrades
 
@@ -51,16 +53,14 @@ private:
 	// player stuff
 	Player player;
 
-	// bullet count is framerate * shots/sec + 5 for safety
-	ObjectPool<Bullet> bullets = ObjectPool<Bullet>(185);
+	// enemy stuff
+	const int enemySpawnFrequency = 1;
+	const float enemySpawnAccelerationRate = 1.1f;
+
+	// enemy management
+	ObjectPool<Enemy> enemies = ObjectPool<Enemy>(100);
 
 	// charge zone stuff!
 	ChargeZone zones[4] = { ChargeZone(ChargeZone::ChargeableAbility::BulletCount), ChargeZone(ChargeZone::ChargeableAbility::FireRate), ChargeZone(ChargeZone::ChargeableAbility::Speed), ChargeZone(ChargeZone::ChargeableAbility::Damage) };
-
-	// enemy management
-	ObjectPool<Enemy> enemies = ObjectPool<Enemy>(128);
-
-	float enemySpawnFrequency = 1.0f;
-	float enemySpawnAccelerationRate = 1.1f;
 
 };

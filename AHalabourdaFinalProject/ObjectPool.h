@@ -15,6 +15,7 @@ public:
 	T* GetItems() const { return items; }
 
 	void Draw() const;
+	void Reset();
 
 private:
 	const int size;
