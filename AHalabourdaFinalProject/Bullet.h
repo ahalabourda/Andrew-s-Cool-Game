@@ -17,9 +17,9 @@ public:
 
 	bool GetIsActive() const { return isActive; }
 	Vector2 GetPosition() const { return position; }
-	float GetDamage() const { return damage; }
-	float GetSpeed() const { return speed; }
-	float GetSize() const { return size; }
+	float GetDamage() const { return Bullet::damage; }
+	float GetSpeed() const { return Bullet::speed; }
+	float GetSize() const { return Bullet::size; }
 
 private:
 
@@ -28,11 +28,11 @@ private:
 	Vector2 position{ 0, 0 };
 	float rotation = 0.0f;
 
-	// TODO: struggling to make this static.. revisit later
-	const int lifespanInMilliseconds = 3000;
-	const float speed = 10.0f;
-	const float damage = 5.0f;
-	const float size = 3.0f;
+	// static const int can be declared in here, but not the floats? weird quirk but stackoverflow seems to corroborate: https://stackoverflow.com/questions/185844/how-to-initialize-private-static-members-in-c
+	static const int lifespanInMilliseconds = 3000; 
+	static const float speed;
+	static const float damage;
+	static const float size;
 
 	Color colour{ 50, 50, 50, 255 };
 

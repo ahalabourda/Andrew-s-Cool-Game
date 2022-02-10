@@ -26,11 +26,11 @@ private:
 	void PlaceRandomly();
 
 	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
-
-	const float size = 20.0f;
-	const float growthRate = 1.1f;
-	const Color colour{ 200, 30, 30, 255 };
-	const float speed = 2.0f;
+	
+	static const float size;
+	static const float growthRate;
+	static const Color colour;
+	static const float speed;
 	Vector2 position { 0, 0 };
 	Rectangle rect{ 0, 0, size, size };
 	bool isActive = false;

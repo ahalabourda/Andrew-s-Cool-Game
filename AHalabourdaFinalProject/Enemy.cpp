@@ -3,6 +3,11 @@
 #include <math.h>
 #include <iostream>
 
+const float Enemy::size = 20.0f;
+const float Enemy::growthRate = 1.1f;
+const Color Enemy::colour{ 200, 30, 30, 255 };
+const float Enemy::speed = 2.0f;
+
 Enemy::Enemy()
 {
 
