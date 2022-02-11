@@ -1,11 +1,13 @@
 #pragma once
-
+#include "raylib.h"
 #include "Bullet.h"
 #include <math.h>
 
 const float Bullet::size = 3.0f;
 const float Bullet::damage = 5.0f;
 const float Bullet::speed = 10.0f;
+
+const Color Bullet::colour{ 50, 50, 50, 255 };
 
 Bullet::Bullet()
 {

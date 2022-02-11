@@ -34,7 +34,7 @@ private:
 	static const float damage;
 	static const float size;
 
-	Color colour{ 50, 50, 50, 255 };
+	static const Color colour;
 
 	bool isActive = false;
 

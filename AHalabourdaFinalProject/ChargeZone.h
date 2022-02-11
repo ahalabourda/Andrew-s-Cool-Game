@@ -23,11 +23,11 @@ public:
 private:
 	
 	Rectangle trigger;
-	Rectangle fill{ 0, 0, 0, 0 };
+	Rectangle fill;
 	Color colour{ 0, 0, 0, 255 };
 	Color activeColour{ 0, 0, 0, 255 };
 
-	const float chargeValueMax = 100.0f;
+	static const float chargeValueMax;
 	float chargeValueCurrent = 0.0f;
 	float chargeAmountPerTick = .5f;
 

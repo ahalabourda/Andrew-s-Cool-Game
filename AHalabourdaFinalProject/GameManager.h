@@ -29,7 +29,7 @@ public:
 	const GameState& GetCurrentGameState() const { return currentGameState; }
 	const Color & GetBackgroundColour() const { return backgroundColour; }
 	int GetScore() const { return score; }
-	int GetGameDurationInSeconds() const { return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - begin).count(); }
+	int GetGameDurationInSeconds() const { return static_cast<int>( std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - begin).count()); }
 
 private:
 
