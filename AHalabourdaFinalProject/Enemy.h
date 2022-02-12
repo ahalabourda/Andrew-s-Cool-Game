@@ -13,9 +13,9 @@ public:
 	void Tick(const Vector2 & targetPosition);
 
 	void Draw() const;
-	bool GetIsActive() const { return isActive; }
-	Vector2 GetPosition() const { return position; }
-	Rectangle GetRectangle() const { return rect; }
+	bool GetIsActive() const { return mIsActive; }
+	Vector2 GetPosition() const { return mPosition; }
+	Rectangle GetRectangle() const { return mRect; }
 	int GetAgeInMilliseconds() const;
 
 	void Activate();
@@ -25,14 +25,15 @@ private:
 
 	void PlaceRandomly();
 
-	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+	std::chrono::steady_clock::time_point mTimerBegin;
 	
-	static const float size;
-	static const float growthRate;
-	static const Color colour;
-	static const float speed;
-	Vector2 position { 0, 0 };
-	Rectangle rect{ 0, 0, size, size };
-	bool isActive = false;
+	inline static const float msSize = 20.0f;
+	inline static const float msGrowthRate = 1.1f;
+	inline static const Color msColour{ 200, 30, 30, 255 };
+	inline static const float msSpeed = 2.0f;
+
+	Vector2 mPosition { 0, 0 };
+	Rectangle mRect{ 0, 0, msSize, msSize };
+	bool mIsActive = false;
 
 };

@@ -9,15 +9,15 @@ public:
 	Upgrade() = delete;
 	Upgrade(UpgradeType type);
 
-	void Increment() { currentLevel++; }
-	int GetCurrentLevel() const { return currentLevel; }
+	void Increment() { mCurrentLevel++; }
+	int GetCurrentLevel() const { return mCurrentLevel; }
 	
 	void Reset();
 
 private:
 
-	UpgradeType thisUpgradeType;
+	UpgradeType mUpgradeType;
 
-	int currentLevel = 1;
+	int mCurrentLevel = 1;
 
 };

@@ -3,8 +3,8 @@
 
 template<class T>
 ObjectPool<T>::ObjectPool(int desiredSize)
-	: size(desiredSize)
-	, items(new T[size])
+	: mSize(desiredSize)
+	, mItems(new T[mSize])
 {
 }
 
@@ -12,8 +12,8 @@ template<class T>
 ObjectPool<T>::~ObjectPool()
 {
 
-	delete[] items;
-	items = nullptr;
+	delete[] mItems;
+	mItems = nullptr;
 
 }
 
@@ -21,9 +21,9 @@ template<class T>
 T* ObjectPool<T>::GetNextAvailable() const
 {
 
-	for (int i = 0; i < size; i++) {
-		if (items[i].GetIsActive() == false) {
-			return &items[i];
+	for (int i = 0; i < mSize; i++) {
+		if (mItems[i].GetIsActive() == false) {
+			return &mItems[i];
 		}
 	}
 
@@ -35,9 +35,9 @@ template<class T>
 void ObjectPool<T>::Draw() const
 {
 
-	for (int i = 0; i < size; i++) {
-		if (items[i].GetIsActive() == true) {
-			items[i].Draw();
+	for (int i = 0; i < mSize; i++) {
+		if (mItems[i].GetIsActive() == true) {
+			mItems[i].Draw();
 		}
 	}
 
@@ -46,7 +46,7 @@ void ObjectPool<T>::Draw() const
 template<class T>
 inline void ObjectPool<T>::Reset()
 {
-	for (int i = 0; i < size; i++) {
-		items[i].Deactivate();
+	for (int i = 0; i < mSize; i++) {
+		mItems[i].Deactivate();
 	}
 }

@@ -4,7 +4,7 @@
 void Player::Tick()
 {
 
-	ticksSinceLastShot++;
+	mTicksSinceLastShot++;
 
 	// moving
 	Move(GetGamepadAxisMovement(0, 0), GetGamepadAxisMovement(0, 1));
@@ -18,39 +18,39 @@ void Player::Tick()
 void Player::Move(float movementX, float movementY)
 {
 
-	position.x = std::clamp(position.x + (movementX * speed * static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed))), 0.0f, (float)GetScreenWidth());
-	position.y = std::clamp(position.y + (movementY * speed * static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed))), 0.0f, (float)GetScreenHeight());
+	mPosition.x = std::clamp(mPosition.x + (movementX * mSpeed * static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed))), 0.0f, (float)GetScreenWidth());
+	mPosition.y = std::clamp(mPosition.y + (movementY * mSpeed * static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed))), 0.0f, (float)GetScreenHeight());
 
 }
 
 void Player::Shoot(float directionX, float directionY)
 {
 
-	if (ticksSinceLastShot > ticksPerShot) {
-		ticksSinceLastShot = 0;
-		bullets.GetNextAvailable()->Activate(position, atan2f(directionY, directionX));
+	if (mTicksSinceLastShot > mTicksPerShot) {
+		mTicksSinceLastShot = 0;
+		mBullets.GetNextAvailable()->Activate(mPosition, atan2f(directionY, directionX));
 	}
 }
 
 void Player::Draw() const
 {
-	DrawCircleV(position, size, colour);
+	DrawCircleV(mPosition, mSize, mColour);
 }
 
 void Player::IncrementUpgradeLevel(const Upgrade::UpgradeType& type)
 {
 	switch (type) {
 		case Upgrade::UpgradeType::MoveSpeed:
-			upgrades[0].Increment();
+			mUpgrades[0].Increment();
 			break;
 		case Upgrade::UpgradeType::ScoreMultiplier:
-			upgrades[1].Increment();
+			mUpgrades[1].Increment();
 			break;
 		case Upgrade::UpgradeType::Damage:
-			upgrades[2].Increment();
+			mUpgrades[2].Increment();
 			break;
 		case Upgrade::UpgradeType::FireRate:
-			upgrades[3].Increment();
+			mUpgrades[3].Increment();
 			break;
 	}
 }
@@ -59,13 +59,13 @@ int Player::GetUpgradeLevel(const Upgrade::UpgradeType& type)
 {
 	switch (type) {
 		case Upgrade::UpgradeType::MoveSpeed:
-			return upgrades[0].GetCurrentLevel();
+			return mUpgrades[0].GetCurrentLevel();
 		case Upgrade::UpgradeType::ScoreMultiplier:
-			return upgrades[1].GetCurrentLevel();
+			return mUpgrades[1].GetCurrentLevel();
 		case Upgrade::UpgradeType::Damage:
-			return upgrades[2].GetCurrentLevel();
+			return mUpgrades[2].GetCurrentLevel();
 		case Upgrade::UpgradeType::FireRate:
-			return upgrades[3].GetCurrentLevel();
+			return mUpgrades[3].GetCurrentLevel();
 		default:
 			return -1;
 	}
@@ -74,12 +74,12 @@ int Player::GetUpgradeLevel(const Upgrade::UpgradeType& type)
 void Player::Reset()
 {
 
-	position = { static_cast<float>(GetScreenWidth() / 2), static_cast<float>(GetScreenHeight() / 2) };
+	mPosition = { static_cast<float>(GetScreenWidth() / 2), static_cast<float>(GetScreenHeight() / 2) };
 
-	for (int i = 0; i < ARRAY_LENGTH(upgrades); i++) {
-		upgrades[i].Reset();
+	for (int i = 0; i < ARRAY_LENGTH(mUpgrades); i++) {
+		mUpgrades[i].Reset();
 	}
 
-	bullets.Reset();
+	mBullets.Reset();
 
 }

@@ -3,11 +3,7 @@
 #include "Bullet.h"
 #include <math.h>
 
-const float Bullet::size = 3.0f;
-const float Bullet::damage = 5.0f;
-const float Bullet::speed = 10.0f;
 
-const Color Bullet::colour{ 50, 50, 50, 255 };
 
 Bullet::Bullet()
 {
@@ -16,32 +12,32 @@ Bullet::Bullet()
 
 void Bullet::Activate(Vector2 spawnPosition, float spawnRotation)
 {
-	isActive = true;
-	position = spawnPosition;
-	rotation = spawnRotation;
-	begin = std::chrono::steady_clock::now();
+	mIsActive = true;
+	mPosition = spawnPosition;
+	mRotation = spawnRotation;
+	mTimerBegin = std::chrono::steady_clock::now();
 }
 
 void Bullet::Deactivate()
 {
-	isActive = false;
+	mIsActive = false;
 }
 
 void Bullet::Draw() const
 {
-	DrawCircleV(position, size, colour);
+	DrawCircleV(mPosition, msSize, msColour);
 }
 
 void Bullet::Tick()
 {
-	if (isActive) {
+	if (mIsActive) {
 
-		position.x += speed * cosf(rotation);
-		position.y += speed * sinf(rotation);
+		mPosition.x += msSpeed * cosf(mRotation);
+		mPosition.y += msSpeed * sinf(mRotation);
 
-		if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - begin).count() >= lifespanInMilliseconds) {
+		if (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - mTimerBegin).count() >= msLifespanInMilliseconds) {
 
-			isActive = false;
+			mIsActive = false;
 
 		}
 		

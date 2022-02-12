@@ -1,7 +1,7 @@
 #include "EnemyManager.h"
 
 EnemyManager::EnemyManager(Player thePlayer)
-	: player(thePlayer)
+	: mPlayer(thePlayer)
 {
 }
 

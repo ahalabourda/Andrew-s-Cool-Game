@@ -15,9 +15,9 @@ public:
 	void Tick();
 
 private:
-	ObjectPool<Enemy> enemies = ObjectPool<Enemy>(100);
+	ObjectPool<Enemy> mEnemies = ObjectPool<Enemy>(100);
 
-	Player player;
+	Player mPlayer;
 	float spawnFrequency = 1.0f;
 	float spawnAccelerationRate = 1.1f;
 

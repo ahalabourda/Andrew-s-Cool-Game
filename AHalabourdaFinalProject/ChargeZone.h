@@ -11,26 +11,26 @@ public:
 	ChargeZone() = delete;
 	ChargeZone(ChargeableAbility ca);
 
-	Rectangle GetTriggerRect() const { return trigger; }
-	Rectangle GetFillRect() const { return fill; }
+	Rectangle GetTriggerRect() const { return mTrigger; }
+	Rectangle GetFillRect() const { return mFiller; }
 
-	bool GetIsActive() const { return isActive; }
-	void SetIsActive(bool newValue) { isActive = newValue; }
+	bool GetIsActive() const { return mIsActive; }
+	void SetIsActive(bool newValue) { mIsActive = newValue; }
 
 	void Tick();
 	void Draw() const;
 
 private:
 	
-	Rectangle trigger;
-	Rectangle fill;
-	Color colour{ 0, 0, 0, 255 };
-	Color activeColour{ 0, 0, 0, 255 };
+	Rectangle mTrigger;
+	Rectangle mFiller;
+	Color mInactiveColour{ 0, 0, 0, 255 };
+	Color mActiveColour{ 0, 0, 0, 255 };
 
-	static const float chargeValueMax;
-	float chargeValueCurrent = 0.0f;
-	float chargeAmountPerTick = .5f;
+	inline static const float msChargeValueMax = 100.0f;
+	float mChargeValueCurrent = 0.0f;
+	float mChargeAmountPerTick = .5f;
 
-	bool isActive = false;
+	bool mIsActive = false;
 
 };

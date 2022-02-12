@@ -26,10 +26,10 @@ public:
 	void EndGame();
 	void Reset();
 
-	const GameState& GetCurrentGameState() const { return currentGameState; }
-	const Color & GetBackgroundColour() const { return backgroundColour; }
-	int GetScore() const { return score; }
-	int GetGameDurationInSeconds() const { return static_cast<int>( std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - begin).count()); }
+	const GameState& GetCurrentGameState() const { return mCurrentGameState; }
+	const Color & GetBackgroundColour() const { return mBackgroundColour; }
+	int GetScore() const { return mScore; }
+	int GetGameDurationInSeconds() const { return static_cast<int>( std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - mTimerBegin).count()); }
 
 private:
 
@@ -37,30 +37,30 @@ private:
 	void ProcessEnemies();
 
 	// useful timer
-	std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+	std::chrono::steady_clock::time_point mTimerBegin = std::chrono::steady_clock::now();
 
-	GameState currentGameState = GameState::Setup;
+	GameState mCurrentGameState = GameState::Setup;
 
 	// hud stuff
-	int score = 0;
-	const Color backgroundColour{ 150, 150, 150, 255 };
-	const Color hudColour{ 0, 0, 0, 200 };
-	const int fontSize = 64;
+	int mScore = 0;
+	const Color mBackgroundColour{ 150, 150, 150, 255 };
+	const Color mHudColour{ 0, 0, 0, 200 };
+	const int mFontSize = 64;
 
 	// upgrades
 
 
 	// player stuff
-	Player player;
+	Player mPlayer;
 
 	// enemy stuff
-	const int enemySpawnFrequency = 1;
-	const float enemySpawnAccelerationRate = 1.1f;
+	const int mEnemySpawnFrequency = 1;
+	const float mEnemySpawnAccelerationRate = 1.1f;
 
 	// enemy management
-	ObjectPool<Enemy> enemies = ObjectPool<Enemy>(100);
+	ObjectPool<Enemy> mEnemies = ObjectPool<Enemy>(100);
 
 	// charge zone stuff!
-	ChargeZone zones[4] = { ChargeZone(ChargeZone::ChargeableAbility::BulletCount), ChargeZone(ChargeZone::ChargeableAbility::FireRate), ChargeZone(ChargeZone::ChargeableAbility::Speed), ChargeZone(ChargeZone::ChargeableAbility::Damage) };
+	ChargeZone mZones[4] = { ChargeZone(ChargeZone::ChargeableAbility::BulletCount), ChargeZone(ChargeZone::ChargeableAbility::FireRate), ChargeZone(ChargeZone::ChargeableAbility::Speed), ChargeZone(ChargeZone::ChargeableAbility::Damage) };
 
 };

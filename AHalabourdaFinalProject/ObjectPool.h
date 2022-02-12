@@ -11,16 +11,16 @@ public:
 	~ObjectPool<T>();
 
 	T* GetNextAvailable() const;
-	const int GetSize() const { return size; }
-	T* GetItems() const { return items; }
+	const int GetSize() const { return mSize; }
+	T* GetItems() const { return mItems; }
 
 	void Draw() const;
 	void Reset();
 
 private:
-	const int size;
+	const int mSize;
 
-	T* items;
+	T* mItems;
 
 };
 

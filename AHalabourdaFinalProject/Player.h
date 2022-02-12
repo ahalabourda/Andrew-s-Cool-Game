@@ -19,13 +19,13 @@ public:
 	void Move(float movementX, float movementY);
 	void Shoot(float directionX, float directionY);
 
-	const float & GetSize() const { return size; };
-	const Color & GetColour() const { return colour; }
-	const Vector2 & GetPosition() const { return position; }
-	float GetX() const { return position.x; };
-	float GetY() const { return position.y; };
+	const float & GetSize() const { return mSize; };
+	const Color & GetColour() const { return mColour; }
+	const Vector2 & GetPosition() const { return mPosition; }
+	float GetX() const { return mPosition.x; };
+	float GetY() const { return mPosition.y; };
 
-	const ObjectPool<Bullet>& GetBullets() const { return bullets; }
+	const ObjectPool<Bullet>& GetBullets() const { return mBullets; }
 
 	void IncrementUpgradeLevel(const Upgrade::UpgradeType& type);
 	int GetUpgradeLevel(const Upgrade::UpgradeType& type);
@@ -34,21 +34,21 @@ public:
 
 private:
 
-	const float size = 25.0f;
-	const Color colour { 0, 0, 0, 255 };
+	const float mSpeed = 5.0f;
+	const float mSize = 25.0f;
+	const Color mColour { 0, 0, 0, 255 };
+
 
 	// powerup abilities
-	const int spread = 1;
-	const int ticksPerShot = 10;
-	int ticksSinceLastShot = 0;
+	const int mSpread = 1;
+	const int mTicksPerShot = 10;
+	int mTicksSinceLastShot = 0;
 
-	const float speed = 5.0f;
+	Vector2 mPosition{ static_cast<float>(GetScreenWidth() / 2), static_cast<float>(GetScreenHeight() / 2) };
 
-	Vector2 position{ static_cast<float>(GetScreenWidth() / 2), static_cast<float>(GetScreenHeight() / 2) };
-
-	Upgrade upgrades[4] = { Upgrade(Upgrade::UpgradeType::MoveSpeed), Upgrade(Upgrade::UpgradeType::ScoreMultiplier), Upgrade(Upgrade::UpgradeType::Damage), Upgrade(Upgrade::UpgradeType::FireRate)};
+	Upgrade mUpgrades[4] = { Upgrade(Upgrade::UpgradeType::MoveSpeed), Upgrade(Upgrade::UpgradeType::ScoreMultiplier), Upgrade(Upgrade::UpgradeType::Damage), Upgrade(Upgrade::UpgradeType::FireRate)};
 
 	// bullet count is framerate * shots/sec + 5 for safety
-	ObjectPool<Bullet> bullets = ObjectPool<Bullet>(185);
+	ObjectPool<Bullet> mBullets = ObjectPool<Bullet>(185);
 	
 };

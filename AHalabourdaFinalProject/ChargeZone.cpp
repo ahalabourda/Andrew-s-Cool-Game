@@ -1,7 +1,5 @@
 #include "ChargeZone.h"
 
-const float chargeValueMax = 100.0f;
-
 ChargeZone::ChargeZone(ChargeableAbility ca)
 {
 
@@ -14,58 +12,58 @@ ChargeZone::ChargeZone(ChargeableAbility ca)
 		y = 0.0f;
 		//colour = Color{ 242, 252, 84, 200 };
 		// is this good?? the above line is presumably firing an unnecessary constructor but the bottom lines are ugly. wish there was a one liner
-		colour.r = 242;
-		colour.g = 252;
-		colour.b = 84;
-		activeColour.r = 242;
-		activeColour.g = 252;
-		activeColour.b = 84;
+		mInactiveColour.r = 242;
+		mInactiveColour.g = 252;
+		mInactiveColour.b = 84;
+		mActiveColour.r = 242;
+		mActiveColour.g = 252;
+		mActiveColour.b = 84;
 		break;
 	case ChargeableAbility::FireRate:
 		x = 0.0f;
 		y = (float)GetScreenHeight() / 2.0f;
-		colour.r = 91;
-		colour.g = 255;
-		colour.b = 140;
-		activeColour.r = 91;
-		activeColour.g = 255;
-		activeColour.b = 140;
+		mInactiveColour.r = 91;
+		mInactiveColour.g = 255;
+		mInactiveColour.b = 140;
+		mActiveColour.r = 91;
+		mActiveColour.g = 255;
+		mActiveColour.b = 140;
 		break;
 	case ChargeableAbility::Speed:
 		x = (float)GetScreenWidth() / 2.0f;
 		y = 0.0f;
-		colour.r = 133;
-		colour.g = 146;
-		colour.b = 255;
-		activeColour.r = 133;
-		activeColour.g = 146;
-		activeColour.b = 255;
+		mInactiveColour.r = 133;
+		mInactiveColour.g = 146;
+		mInactiveColour.b = 255;
+		mActiveColour.r = 133;
+		mActiveColour.g = 146;
+		mActiveColour.b = 255;
 		break;
 	case ChargeableAbility::Damage:
 		x = (float)GetScreenWidth() / 2.0f;
 		y = (float)GetScreenHeight() / 2.0f;
-		colour.r = 255;
-		colour.g = 133;
-		colour.b = 133;
-		activeColour.r = 255;
-		activeColour.g = 133;
-		activeColour.b = 133;
+		mInactiveColour.r = 255;
+		mInactiveColour.g = 133;
+		mInactiveColour.b = 133;
+		mActiveColour.r = 255;
+		mActiveColour.g = 133;
+		mActiveColour.b = 133;
 		break;
 	}
 
-	colour.a = 50;
-	activeColour.a = 255;
+	mInactiveColour.a = 50;
+	mActiveColour.a = 255;
 
-	trigger = Rectangle{ x, y, (float)GetScreenWidth() / 2.0f, (float)GetScreenHeight() / 2.0f };
-	fill = Rectangle{ x, y, (float)GetScreenWidth() / 2.0f, 0.0f };
+	mTrigger = Rectangle{ x, y, (float)GetScreenWidth() / 2.0f, (float)GetScreenHeight() / 2.0f };
+	mFiller = Rectangle{ x, y, (float)GetScreenWidth() / 2.0f, 0.0f };
 
 }
 
 void ChargeZone::Tick()
 {
 
-	if (isActive) {
-		chargeValueCurrent += chargeAmountPerTick;
+	if (mIsActive) {
+		mChargeValueCurrent += mChargeAmountPerTick;
 	}
 
 }
@@ -73,11 +71,11 @@ void ChargeZone::Tick()
 void ChargeZone::Draw() const
 {
 
-	if (isActive) {
-		DrawRectangle((int)trigger.x, (int)trigger.y, (int)trigger.width, (int)trigger.height, activeColour);
+	if (mIsActive) {
+		DrawRectangle((int)mTrigger.x, (int)mTrigger.y, (int)mTrigger.width, (int)mTrigger.height, mActiveColour);
 	}
 	else {
-		DrawRectangle((int)trigger.x, (int)trigger.y, (int)trigger.width, (int)trigger.height, colour);
+		DrawRectangle((int)mTrigger.x, (int)mTrigger.y, (int)mTrigger.width, (int)mTrigger.height, mInactiveColour);
 	}
 
 	

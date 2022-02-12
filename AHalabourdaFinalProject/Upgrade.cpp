@@ -1,13 +1,13 @@
 #include "Upgrade.h"
 
 Upgrade::Upgrade(UpgradeType type)
-	: thisUpgradeType(type)
+	: mUpgradeType(type)
 {
 }
 
 void Upgrade::Reset()
 {
 
-	currentLevel = 1;
+	mCurrentLevel = 1;
 
 }
