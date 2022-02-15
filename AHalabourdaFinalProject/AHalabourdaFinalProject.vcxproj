@@ -332,6 +332,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="ChargeBar.cpp" />
     <ClCompile Include="ChargeZone.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
@@ -343,6 +344,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="ChargeBar.h" />
     <ClInclude Include="ChargeZone.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyManager.h" />

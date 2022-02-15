@@ -12,13 +12,19 @@ void GameManager::Tick()
             mZones[i].SetIsActive(true);
         }
         else {
-            // we are just spamming this to false every tick that we aren't in... hmm. maybe an event based system is in order
+            // we are just spamming this to false every tick... hmm. maybe an event based system is in order
             mZones[i].SetIsActive(false);
         }
 
-    }
+        // TODO: discuss how to do this properly
+        if (mZones[i].Tick() == true) {
+            
+            std::cout << "we are upgarding " << i << std::endl;
+            mPlayer.IncrementUpgradeLevel(mZones[i].GetUpgradeType());
 
-    
+        }
+
+    }
     
     // UPGRADE ZONE STUFF
     
@@ -68,9 +74,7 @@ void GameManager::StartGame()
 
 void GameManager::EndGame()
 {
-
     mCurrentGameState = GameState::PostGame;
-
 }
 
 void GameManager::Reset()
@@ -83,6 +87,10 @@ void GameManager::Reset()
     mEnemies.Reset();
 
     mPlayer.Reset();
+
+    for (int i = 0; i < ARRAY_LENGTH(mZones); i++) {
+        mZones[i].Reset();
+    }
 
 }
 
@@ -126,9 +134,13 @@ void GameManager::ProcessEnemies()
                 if ((mPlayer.GetBullets().GetItems() + j)->GetIsActive()) {
 
                     if (CheckCollisionCircleRec((mPlayer.GetBullets().GetItems() + j)->GetPosition(), (mPlayer.GetBullets().GetItems() + j)->GetSize(), (mEnemies.GetItems() + i)->GetRectangle())) {
-                        (mEnemies.GetItems() + i)->Deactivate();
+                        
+                        // TakeDamage() returns TRUE if the enemy died from this damage, so we add some score
+                        if ((mEnemies.GetItems() + i)->TakeDamage(mPlayer.GetActualDamage()) == true) {
+                            mScore += mPlayer.GetUpgradeLevel(Upgrade::UpgradeType::ScoreMultiplier);
+                        }
+
                         (mPlayer.GetBullets().GetItems() + j)->Deactivate();
-                        mScore++;
                     }
 
                 }

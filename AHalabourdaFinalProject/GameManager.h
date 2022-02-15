@@ -26,7 +26,7 @@ public:
 	void EndGame();
 	void Reset();
 
-	const GameState& GetCurrentGameState() const { return mCurrentGameState; }
+	const GameState & GetCurrentGameState() const { return mCurrentGameState; }
 	const Color & GetBackgroundColour() const { return mBackgroundColour; }
 	int GetScore() const { return mScore; }
 	int GetGameDurationInSeconds() const { return static_cast<int>( std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - mTimerBegin).count()); }
@@ -58,9 +58,9 @@ private:
 	const float mEnemySpawnAccelerationRate = 1.1f;
 
 	// enemy management
-	ObjectPool<Enemy> mEnemies = ObjectPool<Enemy>(100);
+	ObjectPool<Enemy> mEnemies = ObjectPool<Enemy>(128);
 
 	// charge zone stuff!
-	ChargeZone mZones[4] = { ChargeZone(ChargeZone::ChargeableAbility::BulletCount), ChargeZone(ChargeZone::ChargeableAbility::FireRate), ChargeZone(ChargeZone::ChargeableAbility::Speed), ChargeZone(ChargeZone::ChargeableAbility::Damage) };
+	ChargeZone mZones[4] = { ChargeZone(Upgrade::UpgradeType::MoveSpeed), ChargeZone(Upgrade::UpgradeType::ScoreMultiplier), ChargeZone(Upgrade::UpgradeType::Damage), ChargeZone(Upgrade::UpgradeType::FireRate) };
 
 };

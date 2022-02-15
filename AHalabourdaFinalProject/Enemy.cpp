@@ -43,13 +43,14 @@ void Enemy::Draw() const
 
 	//DrawTriangle(Vector2{ position.x, position.y + 1 }, Vector2{ position.x - 1, position.y }, Vector2{ position.x + 1, position.y }, colour);
 
-	DrawRectangleRec(mRect, msColour);
+	DrawRectangleRec(mRect, GetActualColour());
 
 }
 
 void Enemy::Activate()
 {
 
+	healthCurrent = healthMax;
 	mTimerBegin = std::chrono::steady_clock::now();
 	PlaceRandomly();
 
@@ -70,18 +71,18 @@ void Enemy::PlaceRandomly()
 	switch (side) {
 		case 0: // left of screen
 			mPosition.x = -10.0f;
-			mPosition.y = (float)(rand() % GetScreenHeight());
+			mPosition.y = static_cast<float>(rand() % GetScreenHeight());
 			break;
 		case 1: // right of screen
 			mPosition.x = GetScreenWidth() + 10.0f;
-			mPosition.y = (float)(rand() % GetScreenHeight());
+			mPosition.y = static_cast<float>(rand() % GetScreenHeight());
 			break;
 		case 2: // above screen
-			mPosition.x = (float)(rand() % GetScreenWidth());
+			mPosition.x = static_cast<float>(rand() % GetScreenWidth());
 			mPosition.y = -10.0f;
 			break;
 		case 3: // below screen
-			mPosition.x = (float)(rand() % GetScreenWidth());
+			mPosition.x = static_cast<float>(rand() % GetScreenWidth());
 			mPosition.y = GetScreenHeight() + 10.0f;
 			break;
 	}
@@ -91,5 +92,19 @@ void Enemy::PlaceRandomly()
 int Enemy::GetAgeInMilliseconds() const {
 	
 	return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - mTimerBegin).count();
+
+}
+
+bool Enemy::TakeDamage(float pDamage)
+{
+
+	healthCurrent -= pDamage;
+	if (healthCurrent <= 0.0f) {
+		Deactivate();
+		return true;
+	}
+	else {
+		return false;
+	}
 
 }

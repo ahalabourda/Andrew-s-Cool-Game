@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 class Upgrade
 {
 
@@ -11,6 +12,7 @@ public:
 
 	void Increment() { mCurrentLevel++; }
 	int GetCurrentLevel() const { return mCurrentLevel; }
+	static std::string GetName(Upgrade::UpgradeType pUpdateType);
 	
 	void Reset();
 

@@ -26,7 +26,7 @@ void Player::Move(float movementX, float movementY)
 void Player::Shoot(float directionX, float directionY)
 {
 
-	if (mTicksSinceLastShot > mTicksPerShot) {
+	if (mTicksSinceLastShot > GetActualTicksPerShot()) {
 		mTicksSinceLastShot = 0;
 		mBullets.GetNextAvailable()->Activate(mPosition, atan2f(directionY, directionX));
 	}
@@ -34,6 +34,7 @@ void Player::Shoot(float directionX, float directionY)
 
 void Player::Draw() const
 {
+	DrawCircleV(mPosition, mSize * 1.1f, mBorderColour);
 	DrawCircleV(mPosition, mSize, mColour);
 }
 
@@ -55,7 +56,7 @@ void Player::IncrementUpgradeLevel(const Upgrade::UpgradeType& type)
 	}
 }
 
-int Player::GetUpgradeLevel(const Upgrade::UpgradeType& type)
+int Player::GetUpgradeLevel(const Upgrade::UpgradeType& type) const
 {
 	switch (type) {
 		case Upgrade::UpgradeType::MoveSpeed:

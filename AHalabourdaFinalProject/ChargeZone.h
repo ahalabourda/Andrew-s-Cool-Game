@@ -1,36 +1,57 @@
 #pragma once
 #include "raylib.h"
+#include "Upgrade.h"
+#include "ChargeBar.h"
 
 class ChargeZone
 {
 
 public:
 
-	enum class ChargeableAbility { BulletCount, FireRate, Speed, Damage };
-
 	ChargeZone() = delete;
-	ChargeZone(ChargeableAbility ca);
+	ChargeZone(Upgrade::UpgradeType pUpgradeType);
 
 	Rectangle GetTriggerRect() const { return mTrigger; }
-	Rectangle GetFillRect() const { return mFiller; }
 
+	
 	bool GetIsActive() const { return mIsActive; }
 	void SetIsActive(bool newValue) { mIsActive = newValue; }
+	int GetCurrentLevel() const { return mCurrentLevel; }
+	void IncrementLevel() { ++mCurrentLevel; if (mCurrentLevel > mLevelMax) { mCurrentLevel = mLevelMax; } }
 
-	void Tick();
+	Upgrade::UpgradeType GetUpgradeType() const { return mUpgradeType; }
+
+	// returns TRUE if we dinged on this tick
+	bool Tick();
 	void Draw() const;
+
+	void Reset();
 
 private:
 	
+	Vector2 mBasePosition;
+
+	ChargeBar mChargeBar;
+
+	Upgrade::UpgradeType mUpgradeType;
+
 	Rectangle mTrigger;
-	Rectangle mFiller;
 	Color mInactiveColour{ 0, 0, 0, 255 };
 	Color mActiveColour{ 0, 0, 0, 255 };
+	Color mBarColour{ 30, 250, 50, 255 };
+
+	inline static const int mLabelFontSize = 18;
 
 	inline static const float msChargeValueMax = 100.0f;
 	float mChargeValueCurrent = 0.0f;
-	float mChargeAmountPerTick = .5f;
+	float mChargeAmountPerTick = .25f;
+
+	int mCurrentLevel = 1;
+	const int mLevelMax = 5;
 
 	bool mIsActive = false;
+
+	float GetWidth() const { return static_cast<float>(GetScreenWidth() / 2.0f); }
+	float GetHeight() const { return static_cast<float>(GetScreenHeight() / 2.0f); }
 
 };

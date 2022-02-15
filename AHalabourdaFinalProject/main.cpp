@@ -1,13 +1,18 @@
 // andrew's cool game! :)
+
+// library stuff
 #include "raylib.h"
 #include <string>
 #include <chrono>
+#include <iostream>
+
+// my stuff
 #include "Player.h"
 #include "Bullet.h"
 #include "ObjectPool.h"
 #include "EnemyManager.h"
 #include "ChargeZone.h"
-#include <GameManager.h>
+#include "GameManager.h"
 
 int main(void)
 {

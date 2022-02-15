@@ -26,6 +26,7 @@
     <ClCompile Include="Upgrade.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ChargeBar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -69,6 +70,7 @@
     <ClInclude Include="Poolable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ChargeBar.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ObjectPool.inl">
