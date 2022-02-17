@@ -5,6 +5,8 @@
 void GameManager::Tick()
 {
 
+    // UPGRADE ZONE STUFF
+
     // find active charge zone
     for (int i = 0; i < ARRAY_LENGTH(mZones); i++) {
         
@@ -18,18 +20,12 @@ void GameManager::Tick()
 
         // TODO: discuss how to do this properly
         if (mZones[i].Tick() == true) {
-            
-            std::cout << "we are upgarding " << i << std::endl;
             mPlayer.IncrementUpgradeLevel(mZones[i].GetUpgradeType());
-
         }
 
     }
     
-    // UPGRADE ZONE STUFF
-    
-
-    
+    // PLAYER STUFF
     mPlayer.Tick();
 
 
@@ -40,8 +36,6 @@ void GameManager::Tick()
         (mPlayer.GetBullets().GetItems() + i)->Tick();
     }
     
-    
-
     AttemptEnemySpawn();
 
     ProcessEnemies();

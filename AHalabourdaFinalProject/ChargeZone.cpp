@@ -75,22 +75,28 @@ bool ChargeZone::Tick()
 {
 
 	if (mIsActive) {
-		mChargeValueCurrent += mChargeAmountPerTick;
-		mChargeBar.SetFillAmount(mChargeValueCurrent);
 
-		if (mChargeValueCurrent >= msChargeValueMax) {
-			IncrementLevel();
-			mChargeValueCurrent = 0.0f;
-			return true;
-		}
-		else {
+		if (mCurrentLevel == mLevelMax) {
+			// sort of a hack to detect when the bar is fully filled
+			mChargeBar.SetFillAmount(mChargeBar.GetFillMax() + 1);
 			return false;
 		}
-		
+		else {
+			mChargeValueCurrent += mChargeAmountPerTick;
+
+			mChargeBar.SetFillAmount(mChargeValueCurrent);
+
+			if (mChargeValueCurrent >= msChargeValueMax) {
+				IncrementLevel();
+				mChargeValueCurrent = 0.0f;
+				return true;
+			}
+
+		}
+
 	}
-	else {
-		return false;
-	}
+
+	return false;
 
 }
 

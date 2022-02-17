@@ -10,6 +10,7 @@ public:
 
 	int GetWidth() const { return msWidth; }
 	int GetHeight() const { return msHeight; }
+	float GetFillMax() const { return msFillMax; }
 
 private:
 	
@@ -25,5 +26,8 @@ private:
 
 	float msFillMax = 100.0f;
 	float mFillCurrent = 0.0f;
+
+	const float mLabelFontSize = 24.0f;
+	const Color mLabelColor = BLACK;
 
 };

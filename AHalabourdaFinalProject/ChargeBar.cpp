@@ -18,4 +18,9 @@ void ChargeBar::Draw(Vector2 pCenterPosition, Color pColour) const
 					static_cast<int>(GetScreenWidth() / 10.0f * mFillCurrent / msFillMax), // filling based on charge level
 					static_cast<int>(GetScreenHeight() / 25.0f), 
 					pColour);
+
+	if (mFillCurrent > msFillMax) {
+		DrawText("MAX", static_cast<int>(pCenterPosition.x) - ((MeasureText("MAX", mLabelFontSize) / 2)), static_cast<int>(pCenterPosition.y), mLabelFontSize, mLabelColor);
+	}
+
 }
