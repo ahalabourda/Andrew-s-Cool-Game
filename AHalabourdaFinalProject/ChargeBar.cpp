@@ -20,7 +20,7 @@ void ChargeBar::Draw(Vector2 pCenterPosition, Color pColour) const
 					pColour);
 
 	if (mFillCurrent > msFillMax) {
-		DrawText("MAX", static_cast<int>(pCenterPosition.x) - ((MeasureText("MAX", mLabelFontSize) / 2)), static_cast<int>(pCenterPosition.y), mLabelFontSize, mLabelColor);
+		DrawText("MAX", static_cast<int>(pCenterPosition.x - ((MeasureText("MAX", mLabelFontSize) / 2))), static_cast<int>(pCenterPosition.y) + 2, mLabelFontSize, mLabelColor);
 	}
 
 }

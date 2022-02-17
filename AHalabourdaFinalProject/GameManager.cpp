@@ -1,5 +1,6 @@
 #include "GameManager.h"
 #include <iostream>
+#include <sstream>
 #include <string>
 
 void GameManager::Tick()
@@ -36,6 +37,11 @@ void GameManager::Tick()
         (mPlayer.GetBullets().GetItems() + i)->Tick();
     }
     
+    // increment the difficulty level every 30 seconds
+    if (GetGameDurationInSeconds() > mLevelDurationInSeconds * mCurrentDifficultyLevel) {
+        mCurrentDifficultyLevel++;
+    }
+
     AttemptEnemySpawn();
 
     ProcessEnemies();
@@ -57,7 +63,22 @@ void GameManager::Draw() const
 
     mEnemies.Draw();
 
-    DrawText(std::to_string(mScore).c_str(), 25, 25, mFontSize, mHudColour);
+    // score!
+    // current level stuff
+    std::stringstream ss;
+    ss << "Score: " << mScore;
+    std::string tmp = ss.str();
+
+    //DrawText(std::to_string(mScore).c_str(), 25, 25, mFontSize, mHudColour);
+    DrawText(tmp.c_str(), GetScreenWidth() / 100, GetScreenHeight() - mFontSize, mFontSize, BLACK);
+
+    // current level stuff
+    ss.str("");
+    ss << "Level: " << mCurrentDifficultyLevel;
+    tmp = ss.str();
+
+    // using font size for positioning here!
+    DrawText(tmp.c_str(), GetScreenWidth() - (GetScreenWidth() / 100) - (MeasureText(tmp.c_str(), mFontSize)), GetScreenHeight() - mFontSize, mFontSize, BLACK);
 
 }
 
@@ -82,6 +103,9 @@ void GameManager::Reset()
 
     mPlayer.Reset();
 
+    mEnemySpawnFrequency = 1;
+    mCurrentDifficultyLevel = 1;
+
     for (int i = 0; i < ARRAY_LENGTH(mZones); i++) {
         mZones[i].Reset();
     }
@@ -91,7 +115,7 @@ void GameManager::Reset()
 void GameManager::AttemptEnemySpawn()
 {
     // try to spawn an enemy
-    if (rand() % 100 <= mEnemySpawnFrequency) {
+    if (rand() % 100 <= mEnemySpawnFrequency * (mEnemySpawnAccelerationRate * mCurrentDifficultyLevel)) {
 
         try {
             mEnemies.GetNextAvailable()->Activate();
@@ -100,7 +124,6 @@ void GameManager::AttemptEnemySpawn()
             std::cerr << "Failed to spawn an enemy, but not crashing :)" << std::endl;
         }
 
-        //std::cout << "activating an enemy!" << std::endl;
     }
 }
 

@@ -36,6 +36,9 @@ private:
 	void AttemptEnemySpawn();
 	void ProcessEnemies();
 
+	// player stuff
+	Player mPlayer;
+
 	// useful timer
 	std::chrono::steady_clock::time_point mTimerBegin = std::chrono::steady_clock::now();
 
@@ -50,12 +53,13 @@ private:
 	// upgrades
 
 
-	// player stuff
-	Player mPlayer;
+	
 
 	// enemy stuff
-	const int mEnemySpawnFrequency = 1;
+	int mEnemySpawnFrequency = 1;
 	const float mEnemySpawnAccelerationRate = 1.1f;
+	int mCurrentDifficultyLevel = 1;
+	const int mLevelDurationInSeconds = 30;
 
 	// enemy management
 	ObjectPool<Enemy> mEnemies = ObjectPool<Enemy>(128);
