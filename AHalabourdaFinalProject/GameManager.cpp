@@ -64,12 +64,10 @@ void GameManager::Draw() const
     mEnemies.Draw();
 
     // score!
-    // current level stuff
     std::stringstream ss;
     ss << "Score: " << mScore;
     std::string tmp = ss.str();
 
-    //DrawText(std::to_string(mScore).c_str(), 25, 25, mFontSize, mHudColour);
     DrawText(tmp.c_str(), GetScreenWidth() / 100, GetScreenHeight() - mFontSize, mFontSize, BLACK);
 
     // current level stuff
@@ -139,7 +137,7 @@ void GameManager::ProcessEnemies()
             // tick the enemy
             (mEnemies.GetItems() + i)->Tick(mPlayer.GetPosition());
 
-            if (CheckCollisionCircleRec(mPlayer.GetPosition(), mPlayer.GetSize(), (mEnemies.GetItems() + i)->GetRectangle())) {
+            if (CheckCollisionPointRec(mPlayer.GetPosition(), (mEnemies.GetItems() + i)->GetRectangle())) {
 
                 EndGame();
 

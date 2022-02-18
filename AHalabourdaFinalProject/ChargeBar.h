@@ -24,7 +24,7 @@ private:
 	// inline const static Color msBorderColour{ 255, 255, 255, 255 };
 	// inline const static Color msBodyColour{ 50, 50, 50, 255 };
 
-	float msFillMax = 100.0f;
+	inline static const float msFillMax = 100.0f;
 	float mFillCurrent = 0.0f;
 
 	const float mLabelFontSize = 24.0f;

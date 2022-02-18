@@ -1,6 +1,7 @@
 #pragma once
 #include <raylib.h>
-#include <Upgrade.h>
+#include <deque>
+#include "Upgrade.h"
 #include "ObjectPool.h"
 #include "Bullet.h"
 
@@ -12,6 +13,8 @@ class Player
 {
 
 public:
+
+	Player();
 
 	void Tick();
 	void Draw() const;
@@ -31,21 +34,37 @@ public:
 	void IncrementUpgradeLevel(const Upgrade::UpgradeType& type);
 	int GetUpgradeLevel(const Upgrade::UpgradeType& type) const;
 	
+	float GetLastBodyFacing() const { return mRecentBodyFacings.back(); }
+
+	float GetLastGunFacing() const { return mRecentGunFacings.back(); }
+
+	float GetSmoothedAngle(const std::deque<float> & pAngles) const;
+
 	void Reset();
 
 private:
 
 	const float mDamage = 10.0f;
-	const float mSpeed = 5.0f;
+	const float mSpeed = 3.5f;
+	const float mSpeedUpgradeValue = 1.5f;
 	const float mSize = 25.0f;
 	const Color mColour { 0, 0, 0, 255 };
 	const Color mBorderColour{ 255, 255, 255, 255 };
 
+	Texture2D mTankBody = LoadTexture("sprites/tank-body.png");
+	Texture2D mTankGun = LoadTexture("sprites/tank-gun.png");
+	const float mTextureScale = 0.25f;
 
 	// powerup abilities
 	const int mSpread = 1;
 	const int mTicksPerShot = 8;
 	int mTicksSinceLastShot = 0;
+
+	//float mLatestBodyFacing = 0.0f;
+	//float mLatestGunFacing = 0.0f;
+
+	std::deque<float> mRecentBodyFacings;
+	std::deque<float> mRecentGunFacings;
 
 	Vector2 mPosition{ static_cast<float>(GetScreenWidth() / 2), static_cast<float>(GetScreenHeight() / 2) };
 

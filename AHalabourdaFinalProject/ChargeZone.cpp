@@ -1,4 +1,5 @@
 #include <sstream>
+#include <algorithm>
 #include "ChargeZone.h"
 
 
@@ -82,7 +83,7 @@ bool ChargeZone::Tick()
 			return false;
 		}
 		else {
-			mChargeValueCurrent += mChargeAmountPerTick;
+			mChargeValueCurrent = std::clamp(mChargeValueCurrent + mChargeAmountPerTick, 0.0f, mChargeBar.GetFillMax());
 
 			mChargeBar.SetFillAmount(mChargeValueCurrent);
 
@@ -94,6 +95,13 @@ bool ChargeZone::Tick()
 
 		}
 
+	}
+	else {
+		// drain charge while not active
+		mChargeValueCurrent = std::clamp(mChargeValueCurrent - mDrainAmountPerTick, 0.0f, mChargeBar.GetFillMax());
+
+		mChargeBar.SetFillAmount(mChargeValueCurrent);
+		
 	}
 
 	return false;
@@ -143,6 +151,7 @@ void ChargeZone::Reset()
 {
 	
 	mChargeValueCurrent = 0.0f;
+	mChargeAmountPerTick = 0.2f;
 	mCurrentLevel = 1;
 
 }

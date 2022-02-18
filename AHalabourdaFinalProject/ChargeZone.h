@@ -17,7 +17,7 @@ public:
 	bool GetIsActive() const { return mIsActive; }
 	void SetIsActive(bool newValue) { mIsActive = newValue; }
 	int GetCurrentLevel() const { return mCurrentLevel; }
-	void IncrementLevel() { ++mCurrentLevel; if (mCurrentLevel > mLevelMax) { mCurrentLevel = mLevelMax; } }
+	void IncrementLevel() { ++mCurrentLevel; mChargeAmountPerTick *= msChargeSlowdownModifier; if (mCurrentLevel > mLevelMax) { mCurrentLevel = mLevelMax; } }
 
 	Upgrade::UpgradeType GetUpgradeType() const { return mUpgradeType; }
 
@@ -43,11 +43,13 @@ private:
 	inline static const int mLabelFontSize = 18;
 
 	inline static const float msChargeValueMax = 100.0f;
+	inline static const float msChargeSlowdownModifier = 0.8f;
 	float mChargeValueCurrent = 0.0f;
-	float mChargeAmountPerTick = .25f;
+	float mChargeAmountPerTick = 0.2f;
+	float mDrainAmountPerTick = 0.05f;
 
 	int mCurrentLevel = 1;
-	const int mLevelMax = 5;
+	inline static const int mLevelMax = 5;
 
 	bool mIsActive = false;
 
