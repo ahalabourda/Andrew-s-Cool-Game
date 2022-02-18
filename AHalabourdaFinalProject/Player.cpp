@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "raymath.h"
+#include "SoundManager.h"
 #include <math.h>
 #include <algorithm>
 #include <iostream>
@@ -63,6 +64,7 @@ void Player::Shoot(float directionX, float directionY)
 	if (mTicksSinceLastShot > GetActualTicksPerShot()) {
 		mTicksSinceLastShot = 0;
 		mBullets.GetNextAvailable()->Activate(mPosition, atan2f(directionY, directionX));
+		SoundManager::TriggerSound("gunshot");
 	}
 
 	if (directionX != 0.0f || directionY != 0.0f) {

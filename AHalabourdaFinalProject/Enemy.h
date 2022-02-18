@@ -14,12 +14,14 @@ public:
 	bool GetIsActive() const { return mIsActive; }
 	Vector2 GetPosition() const { return mPosition; }
 	Rectangle GetRectangle() const { return mRect; }
+	Rectangle GetActualRectangle() const { return Rectangle{ mPosition.x, mPosition.y, static_cast<float>(mSprite.width) * mTextureScale, static_cast<float>(mSprite.height) * mTextureScale }; }
 	int GetAgeInMilliseconds() const;
 	Color GetActualColour() const { 
-		return Color{	static_cast<unsigned char>(msColour.r * (healthCurrent / healthMax)), 
-						static_cast<unsigned char>(msColour.g * (healthCurrent / healthMax)),
-						static_cast<unsigned char>(msColour.b * (healthCurrent / healthMax)),
+		return Color{	static_cast<unsigned char>(msColour.r * (mHealthCurrent / mHealthMax)), 
+						static_cast<unsigned char>(msColour.g * (mHealthCurrent / mHealthMax)),
+						static_cast<unsigned char>(msColour.b * (mHealthCurrent / mHealthMax)),
 						msColour.a }; }
+	bool IsCollidingWithPlayer(const Vector2 & pPlayerPosition);
 
 	// takes damage
 	// deactivates self if health drops below zero
@@ -47,10 +49,11 @@ private:
 
 	const Texture2D mSprite = LoadTexture("art/asteroid.png");
 
-	float healthMax = 100.0f;
-	float healthCurrent = healthMax;
+	float mHealthMax = 100.0f;
+	float mHealthCurrent = mHealthMax;
 
-	float baseRotation = rand() * 360.0f;
+	float mBaseRotation = static_cast<float>(rand() % 360);
+	float mRotationSpeed = ((rand() % 10) - 5.0f) / 100.0f;
 
 	bool mIsActive = false;
 

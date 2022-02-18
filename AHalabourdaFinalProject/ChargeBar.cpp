@@ -3,7 +3,6 @@
 
 void ChargeBar::Draw(Vector2 pCenterPosition, Color pColour) const
 {
-	//std::cout << "trying to draw a triangle at " << static_cast<int>(pCenterPosition.x - msWidth / 2) << "," << static_cast<int>(pCenterPosition.y) << " sized " << static_cast<int>(msWidth) << "x" << static_cast<int>(msHeight) << std::endl;
 
 	// here's the border
 	DrawRectangle(	static_cast<int>(pCenterPosition.x - ((msWidth + msBorderWidth) / 2)), // centering ourselves within our quadrant

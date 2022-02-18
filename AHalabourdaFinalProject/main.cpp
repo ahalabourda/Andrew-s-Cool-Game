@@ -12,6 +12,7 @@
 #include "ObjectPool.h"
 #include "ChargeZone.h"
 #include "GameManager.h"
+#include "SoundManager.h"
 
 int main(void)
 {
@@ -30,7 +31,7 @@ int main(void)
     
     // beast boy
     GameManager gm;
-
+    SoundManager sm;
 
     //--------------------------------------------------------------------------------------
 

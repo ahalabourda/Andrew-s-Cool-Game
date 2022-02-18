@@ -65,8 +65,8 @@ ChargeZone::ChargeZone(Upgrade::UpgradeType pUpgradeType)
 			break;
 	}
 
-	mInactiveColour.a = 50;
-	mActiveColour.a = 125;
+	mInactiveColour.a = 20;
+	mActiveColour.a = 60;
 
 	mTrigger = Rectangle{ mBasePosition.x, mBasePosition.y, GetWidth(), GetHeight() };
 
@@ -75,8 +75,12 @@ ChargeZone::ChargeZone(Upgrade::UpgradeType pUpgradeType)
 bool ChargeZone::Tick()
 {
 
-	if (mIsActive) {
-
+	if (IsMaxed()) {
+		// TODO: stop spamming this every tick
+		mChargeBar.SetFillAmount(mChargeBar.GetFillMax() + 1);
+		return false;
+	}
+	else if (mIsActive) {
 		if (mCurrentLevel == mLevelMax) {
 			// sort of a hack to detect when the bar is fully filled
 			mChargeBar.SetFillAmount(mChargeBar.GetFillMax() + 1);
@@ -94,7 +98,6 @@ bool ChargeZone::Tick()
 			}
 
 		}
-
 	}
 	else {
 		// drain charge while not active

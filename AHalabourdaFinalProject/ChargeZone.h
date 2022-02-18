@@ -18,6 +18,7 @@ public:
 	void SetIsActive(bool newValue) { mIsActive = newValue; }
 	int GetCurrentLevel() const { return mCurrentLevel; }
 	void IncrementLevel() { ++mCurrentLevel; mChargeAmountPerTick *= msChargeSlowdownModifier; if (mCurrentLevel > mLevelMax) { mCurrentLevel = mLevelMax; } }
+	bool IsMaxed() const { return mCurrentLevel >= mLevelMax; }
 
 	Upgrade::UpgradeType GetUpgradeType() const { return mUpgradeType; }
 

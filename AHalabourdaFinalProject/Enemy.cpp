@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include "SoundManager.h"
 #include <stdlib.h>
 #include <math.h>
 #include <iostream>
@@ -28,9 +29,6 @@ void Enemy::Tick(const Vector2 & target)
 	mRect.x = mPosition.x - mSprite.width * mTextureScale / 2.0f;
 	mRect.y = mPosition.y - mSprite.height * mTextureScale / 2.0f;
 
-	//mRect.width = msSize * msGrowthRate * (GetAgeInMilliseconds() * .001f);
-	//mRect.height = msSize * msGrowthRate * (GetAgeInMilliseconds() * .001f);
-
 	mRect.width = mSprite.width * mTextureScale;
 	mRect.height = mSprite.height * mTextureScale;
 
@@ -43,11 +41,13 @@ void Enemy::Draw() const
 
 	//DrawRectangleRec(mRect, GetActualColour());
 
+	//DrawCircle(mPosition.x, mPosition.y, mSprite.width * mTextureScale / 2.0f, GetActualColour());
+
 	DrawTexturePro(	mSprite,
 					Rectangle{ 0.0f, 0.0f, static_cast<float>(mSprite.width), static_cast<float>(mSprite.height) },
-					Rectangle{ mPosition.x, mPosition.y, static_cast<float>(mSprite.width) * mTextureScale, static_cast<float>(mSprite.height) * mTextureScale },
-					Vector2{ static_cast<float>(mSprite.width * mTextureScale / 2), static_cast<float>(mSprite.height * mTextureScale / 2.0f) },
-					baseRotation + GetAgeInMilliseconds() * .01f,
+					Rectangle{ mPosition.x, mPosition.y, (mSprite.width) * mTextureScale, (mSprite.height) * mTextureScale },
+					Vector2{ mSprite.width * mTextureScale / 2.0f, mSprite.height * mTextureScale / 2.0f },
+					mBaseRotation + GetAgeInMilliseconds() * mRotationSpeed,
 					GetActualColour());
 
 }
@@ -55,12 +55,12 @@ void Enemy::Draw() const
 void Enemy::Activate()
 {
 
-	healthCurrent = healthMax;
+	mHealthCurrent = mHealthMax;
 	mTimerBegin = std::chrono::steady_clock::now();
 	PlaceRandomly();
 
 	mIsActive = true;
-	baseRotation = rand() * 360.0f;
+	mBaseRotation = rand() * 360.0f;
 
 }
 
@@ -102,15 +102,26 @@ int Enemy::GetAgeInMilliseconds() const {
 
 }
 
+bool Enemy::IsCollidingWithPlayer(const Vector2& pPlayerPosition)
+{
+	if (CheckCollisionPointCircle(pPlayerPosition, mPosition, mSprite.height * mTextureScale / 2.0f)) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 bool Enemy::TakeDamage(float pDamage)
 {
 
-	healthCurrent -= pDamage;
-	if (healthCurrent <= 0.0f) {
+	mHealthCurrent -= pDamage;
+	if (mHealthCurrent <= 0.0f) {
 		Deactivate();
 		return true;
 	}
 	else {
+		SoundManager::TriggerSound("impact");
 		return false;
 	}
 

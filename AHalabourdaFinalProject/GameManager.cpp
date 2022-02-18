@@ -153,7 +153,7 @@ void GameManager::ProcessEnemies()
             // tick the enemy
             (mEnemies.GetItems() + i)->Tick(mPlayer.GetPosition());
 
-            if (CheckCollisionPointRec(mPlayer.GetPosition(), (mEnemies.GetItems() + i)->GetRectangle())) {
+            if ((mEnemies.GetItems() + i)->IsCollidingWithPlayer(mPlayer.GetPosition())) {
 
                 EndGame();
 
