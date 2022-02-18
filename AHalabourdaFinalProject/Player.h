@@ -48,7 +48,7 @@ private:
 
 	const float mDamage = 10.0f;
 	const float mSpeed = 3.5f;
-	const float mSpeedUpgradeValue = 1.5f;
+	const float mSpeedUpgradeValue = 1.0f;
 	const float mSize = 25.0f;
 	const Color mColour { 0, 0, 0, 255 };
 	const Color mBorderColour{ 255, 255, 255, 255 };

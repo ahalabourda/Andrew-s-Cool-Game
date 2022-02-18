@@ -42,8 +42,8 @@ void Player::Tick()
 void Player::Move(float movementX, float movementY)
 {
 
-	mPosition.x = std::clamp(mPosition.x + (movementX * mSpeed * static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed) * mSpeedUpgradeValue)), 0.0f, (float)GetScreenWidth());
-	mPosition.y = std::clamp(mPosition.y + (movementY * mSpeed * static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed) * mSpeedUpgradeValue)), 0.0f, (float)GetScreenHeight());
+	mPosition.x = std::clamp(mPosition.x + (movementX * (mSpeed + static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed) * mSpeedUpgradeValue))), 0.0f, (float)GetScreenWidth());
+	mPosition.y = std::clamp(mPosition.y + (movementY * (mSpeed + static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed) * mSpeedUpgradeValue))), 0.0f, (float)GetScreenHeight());
 
 	if (movementX != 0.0f || movementY != 0.0f) {
 		//mLatestBodyFacing = atan2f(movementX, -movementY) * 180 / 3.141592653f;
@@ -189,7 +189,7 @@ void Player::SetRandomStartPosition()
 
 	srand(static_cast<int>(time(NULL)));
 
-	int spawnPicker = rand() % 3;
+	int spawnPicker = rand() % 4;
 	float xMod = 0;
 	float yMod = 0;
 
@@ -212,5 +212,5 @@ void Player::SetRandomStartPosition()
 		break;
 	}
 
-	mPosition = Vector2{ (GetScreenWidth() / 2.0f) - xMod, (GetScreenHeight() / 2.0f) - xMod };
+	mPosition = Vector2{ (GetScreenWidth() / 2.0f) - xMod, (GetScreenHeight() / 2.0f) - yMod };
 }
