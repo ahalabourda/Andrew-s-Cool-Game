@@ -7,12 +7,12 @@ void Enemy::Tick(const Vector2 & target)
 {
 	
 	// 
-	float deltaX = (target.x - (msSize /2)) - mPosition.x;
-	float deltaY = (target.y - (msSize / 2)) - mPosition.y;
+	float deltaX = target.x - mPosition.x;
+	float deltaY = target.y - mPosition.y;
 
 	float distance = sqrtf((deltaX) * (deltaX) + (deltaY) * (deltaY));
 
-	if (distance > msSpeed) {
+	if (distance > msSpeed) { // we are more than 1 tick of movement away from the target. move normally
 
 		float ratio = msSpeed / distance;
 
@@ -20,25 +20,35 @@ void Enemy::Tick(const Vector2 & target)
 		mPosition.y += ratio * deltaY;
 
 	}
-	else {
-		mPosition.x = target.x - (msSize / 2);
-		mPosition.y = target.y - (msSize / 2);
+	else { // we are less than 1 tick of movement away from the target! just teleport there
+		mPosition.x = target.x;
+		mPosition.y = target.y;
 	}
 
-	mRect.x = mPosition.x;
-	mRect.y = mPosition.y;
+	mRect.x = mPosition.x - mSprite.width * mTextureScale / 2.0f;
+	mRect.y = mPosition.y - mSprite.height * mTextureScale / 2.0f;
 
-	mRect.width = msSize * msGrowthRate * (GetAgeInMilliseconds() * .001f);
-	mRect.height = msSize * msGrowthRate * (GetAgeInMilliseconds() * .001f);
+	//mRect.width = msSize * msGrowthRate * (GetAgeInMilliseconds() * .001f);
+	//mRect.height = msSize * msGrowthRate * (GetAgeInMilliseconds() * .001f);
+
+	mRect.width = mSprite.width * mTextureScale;
+	mRect.height = mSprite.height * mTextureScale;
+
+	mTextureScale = GetAgeInMilliseconds() * .00005f;
 
 }
 
 void Enemy::Draw() const
 {
 
-	//DrawTriangle(Vector2{ position.x, position.y + 1 }, Vector2{ position.x - 1, position.y }, Vector2{ position.x + 1, position.y }, colour);
+	//DrawRectangleRec(mRect, GetActualColour());
 
-	DrawRectangleRec(mRect, GetActualColour());
+	DrawTexturePro(	mSprite,
+					Rectangle{ 0.0f, 0.0f, static_cast<float>(mSprite.width), static_cast<float>(mSprite.height) },
+					Rectangle{ mPosition.x, mPosition.y, static_cast<float>(mSprite.width) * mTextureScale, static_cast<float>(mSprite.height) * mTextureScale },
+					Vector2{ static_cast<float>(mSprite.width * mTextureScale / 2), static_cast<float>(mSprite.height * mTextureScale / 2.0f) },
+					baseRotation + GetAgeInMilliseconds() * .01f,
+					GetActualColour());
 
 }
 
@@ -50,12 +60,14 @@ void Enemy::Activate()
 	PlaceRandomly();
 
 	mIsActive = true;
+	baseRotation = rand() * 360.0f;
 
 }
 
 void Enemy::Deactivate()
 {
 	mIsActive = false;
+	mTextureScale = 1.0f;
 }
 
 void Enemy::PlaceRandomly()

@@ -38,14 +38,19 @@ private:
 	// "inline" here is a c++17 thing that allows us to initialize static const member variables in-class rather than in the .cpp. very nice
 	inline static const float msSize = 20.0f;
 	inline static const float msGrowthRate = 1.1f;
-	inline static const Color msColour{ 180, 180, 180, 200 };
+	inline static const Color msColour{ 180, 180, 180, 255 };
 	inline static const float msSpeed = 2.0f;
+	float mTextureScale = 1.0f;
 
 	Vector2 mPosition { 0, 0 };
 	Rectangle mRect{ 0, 0, msSize, msSize };
 
+	const Texture2D mSprite = LoadTexture("art/asteroid.png");
+
 	float healthMax = 100.0f;
 	float healthCurrent = healthMax;
+
+	float baseRotation = rand() * 360.0f;
 
 	bool mIsActive = false;
 
