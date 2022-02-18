@@ -39,6 +39,8 @@ public:
 	float GetLastGunFacing() const { return mRecentGunFacings.back(); }
 
 	float GetSmoothedAngle(const std::deque<float> & pAngles) const;
+	Vector2 GetSmoothedPosition(const std::deque<Vector2>& pPositions) const;
+	std::deque<Vector2> GetRecentPositions() const { return mRecentPositions; }
 
 	void Reset();
 
@@ -51,8 +53,8 @@ private:
 	const Color mColour { 0, 0, 0, 255 };
 	const Color mBorderColour{ 255, 255, 255, 255 };
 
-	Texture2D mTankBody = LoadTexture("sprites/tank-body.png");
-	Texture2D mTankGun = LoadTexture("sprites/tank-gun.png");
+	const Texture2D mTankBody = LoadTexture("art/tank-body.png");
+	const Texture2D mTankGun = LoadTexture("art/tank-gun.png");
 	const float mTextureScale = 0.25f;
 
 	// powerup abilities
@@ -60,13 +62,12 @@ private:
 	const int mTicksPerShot = 8;
 	int mTicksSinceLastShot = 0;
 
-	//float mLatestBodyFacing = 0.0f;
-	//float mLatestGunFacing = 0.0f;
-
+	std::deque<Vector2> mRecentPositions;
 	std::deque<float> mRecentBodyFacings;
 	std::deque<float> mRecentGunFacings;
 
-	Vector2 mPosition{ static_cast<float>(GetScreenWidth() / 2), static_cast<float>(GetScreenHeight() / 2) };
+	Vector2 mPosition;
+	//Vector2 mPosition{ static_cast<float>(GetScreenWidth() / 2), static_cast<float>(GetScreenHeight() / 2) };
 
 	Upgrade mUpgrades[4] = { Upgrade(Upgrade::UpgradeType::MoveSpeed), Upgrade(Upgrade::UpgradeType::ScoreMultiplier), Upgrade(Upgrade::UpgradeType::Damage), Upgrade(Upgrade::UpgradeType::FireRate)};
 
@@ -74,5 +75,6 @@ private:
 	ObjectPool<Bullet> mBullets = ObjectPool<Bullet>(185);
 
 	const int GetActualTicksPerShot() const { return mTicksPerShot - GetUpgradeLevel(Upgrade::UpgradeType::FireRate); }
+	void SetRandomStartPosition();
 	
 };

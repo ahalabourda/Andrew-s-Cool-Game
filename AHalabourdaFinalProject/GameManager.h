@@ -29,7 +29,8 @@ public:
 	const GameState & GetCurrentGameState() const { return mCurrentGameState; }
 	const Color & GetBackgroundColour() const { return mBackgroundColour; }
 	int GetScore() const { return mScore; }
-	int GetGameDurationInSeconds() const { return static_cast<int>( std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - mTimerBegin).count()); }
+	int GetGameDurationInSeconds() const { return static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - mTimerBegin).count()); }
+	int GetGameDurationInMilliseconds() const { return static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - mTimerBegin).count()); }
 
 private:
 
@@ -47,13 +48,12 @@ private:
 	// hud stuff
 	int mScore = 0;
 	const Color mBackgroundColour{ 150, 150, 150, 255 };
-	const Color mHudColour{ 0, 0, 0, 200 };
+	const Color mHudColour{ 255, 255, 255, 200 };
 	const int mFontSize = 64;
 
 	// upgrades
 
-
-	
+	const Texture2D mBackground = LoadTexture("art/space.png");
 
 	// enemy stuff
 	int mEnemySpawnFrequency = 1;

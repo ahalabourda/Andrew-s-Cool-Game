@@ -66,7 +66,7 @@ ChargeZone::ChargeZone(Upgrade::UpgradeType pUpgradeType)
 	}
 
 	mInactiveColour.a = 50;
-	mActiveColour.a = 255;
+	mActiveColour.a = 125;
 
 	mTrigger = Rectangle{ mBasePosition.x, mBasePosition.y, GetWidth(), GetHeight() };
 
@@ -124,7 +124,7 @@ void ChargeZone::Draw() const
 				static_cast<int>(mBasePosition.x + (mTrigger.width / 2) - (labelOffset / 2)),
 				static_cast<int>(mBasePosition.y + mLabelFontSize / 2),
 				mLabelFontSize, 
-				BLACK);
+				mLabelColour);
 	
 	mChargeBar.Draw(Vector2{ mBasePosition.x + (mTrigger.width / 2), mBasePosition.y + (mTrigger.height / 10) }, mActiveColour);
 	
@@ -140,10 +140,9 @@ void ChargeZone::Draw() const
 	// okay this has to be horrible
 	DrawText(	tmp.c_str(), 
 				static_cast<int>(mBasePosition.x + (mTrigger.width / 2) - (levelOffset / 2)),
-				static_cast<int>(mBasePosition.y + mChargeBar.GetHeight() * 4 + mLabelFontSize), 
-				//static_cast<int>(mBasePosition.y + mLabelFontSize / 2),
-				mLabelFontSize, 
-				BLACK);
+				static_cast<int>(mBasePosition.y + mChargeBar.GetHeight() * 4 + mLabelFontSize),
+				mLabelFontSize,
+				mLabelColour);
 	
 }
 

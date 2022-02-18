@@ -3,11 +3,6 @@
 #include <math.h>
 #include <iostream>
 
-Enemy::Enemy()
-{
-
-}
-
 void Enemy::Tick(const Vector2 & target)
 {
 	

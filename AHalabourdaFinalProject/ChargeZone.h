@@ -36,9 +36,12 @@ private:
 	Upgrade::UpgradeType mUpgradeType;
 
 	Rectangle mTrigger;
-	Color mInactiveColour{ 0, 0, 0, 255 };
-	Color mActiveColour{ 0, 0, 0, 255 };
-	Color mBarColour{ 30, 250, 50, 255 };
+
+	// these colours get overwritten in the constructor
+	Color mInactiveColour; 
+	Color mActiveColour;
+	Color mBarColour;
+	inline static const Color mLabelColour{ 255, 255, 255, 200 };
 
 	inline static const int mLabelFontSize = 18;
 

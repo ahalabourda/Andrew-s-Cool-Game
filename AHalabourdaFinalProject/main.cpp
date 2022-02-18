@@ -10,7 +10,6 @@
 #include "Player.h"
 #include "Bullet.h"
 #include "ObjectPool.h"
-#include "EnemyManager.h"
 #include "ChargeZone.h"
 #include "GameManager.h"
 

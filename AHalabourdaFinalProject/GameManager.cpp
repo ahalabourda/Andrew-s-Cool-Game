@@ -51,6 +51,21 @@ void GameManager::Tick()
 void GameManager::Draw() const
 {
 
+    // space!
+    //DrawTexture(mBackground, 0, 0, WHITE);
+
+    float offsetX = -((GetScreenWidth() / 2.0f) - mPlayer.GetSmoothedPosition(mPlayer.GetRecentPositions()).x) * .1f;
+    float offsetY = -((GetScreenHeight() / 2.0f) - mPlayer.GetSmoothedPosition(mPlayer.GetRecentPositions()).y) * .1f;
+
+    DrawTextureTiled(   mBackground,
+                        Rectangle{ 0.0f, 0.0f, static_cast<float>(mBackground.width), static_cast<float>(mBackground.height) }, // source rectangle (same shape as the bg file)
+                        Rectangle{ -150.0f, -150.0f, GetScreenWidth() * 1.5f, GetScreenHeight() * 1.5f }, // destination rectangle (bigger than the screen so we can wobble)
+                        Vector2{ offsetX, offsetY }, // origin
+                        0.0f, // rotation
+                        1.0f, // scale
+                        WHITE
+    );
+
     // charge zones
     for (int i = 0; i < ARRAY_LENGTH(mZones); i++) {
         mZones[i].Draw();
@@ -68,15 +83,16 @@ void GameManager::Draw() const
     ss << "Score: " << mScore;
     std::string tmp = ss.str();
 
-    DrawText(tmp.c_str(), GetScreenWidth() / 100, GetScreenHeight() - mFontSize, mFontSize, BLACK);
+    // draw score hud element
+    DrawText(tmp.c_str(), GetScreenWidth() / 100, GetScreenHeight() - mFontSize, mFontSize, mHudColour);
 
     // current level stuff
     ss.str("");
     ss << "Level: " << mCurrentDifficultyLevel;
     tmp = ss.str();
 
-    // using font size for positioning here!
-    DrawText(tmp.c_str(), GetScreenWidth() - (GetScreenWidth() / 100) - (MeasureText(tmp.c_str(), mFontSize)), GetScreenHeight() - mFontSize, mFontSize, BLACK);
+    // draw "current level" hud element
+    DrawText(tmp.c_str(), GetScreenWidth() - (GetScreenWidth() / 100) - (MeasureText(tmp.c_str(), mFontSize)), GetScreenHeight() - mFontSize, mFontSize, mHudColour);
 
 }
 

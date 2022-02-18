@@ -13,7 +13,7 @@ std::string Upgrade::GetName(Upgrade::UpgradeType pUpgradeType)
 	case UpgradeType::ScoreMultiplier:
 		return "Score Multiplier";
 	case UpgradeType::Damage:
-		return "Bullet Damage";
+		return "Damage";
 	case UpgradeType::FireRate:
 		return "Fire Rate";
 	default:

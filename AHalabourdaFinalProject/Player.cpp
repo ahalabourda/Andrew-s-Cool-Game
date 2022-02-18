@@ -7,11 +7,20 @@
 Player::Player()
 {
 
+	// random start position
+	SetRandomStartPosition();
+
+	// prefill smoothing queues
 	int facingsToStore = 10;
+	int positionsToStore = 30;
 
 	for (int i = 0; i < facingsToStore; i++) {
 		mRecentBodyFacings.emplace_back(0.0f);
 		mRecentGunFacings.emplace_back(0.0f);
+	}
+
+	for (int i = 0; i < positionsToStore; i++) {
+		mRecentPositions.emplace_back(mPosition);
 	}
 
 }
@@ -42,6 +51,9 @@ void Player::Move(float movementX, float movementY)
 		mRecentBodyFacings.pop_back();
 		mRecentBodyFacings.push_front(((atan2f(movementX, -movementY) * 180 / 3.141592653f)));
 	}
+
+	mRecentPositions.pop_back();
+	mRecentPositions.push_front(mPosition);
 
 }
 
@@ -134,15 +146,71 @@ float Player::GetSmoothedAngle(const std::deque<float>& pAngles) const
 	return atan2f(totalSinValues, totalCosValues) * (180 / 3.141592653f);
 }
 
+Vector2 Player::GetSmoothedPosition(const std::deque<Vector2>& pPositions) const
+{
+
+	float xSum = 0;
+	float ySum = 0;
+
+	for (int i = 0; i < pPositions.size(); i++) {
+		xSum += pPositions[i].x;
+		ySum += pPositions[i].y;
+	}
+
+	return Vector2{ xSum / pPositions.size(), ySum / pPositions.size() };
+}
+
 void Player::Reset()
 {
 
-	mPosition = { static_cast<float>(GetScreenWidth() / 2), static_cast<float>(GetScreenHeight() / 2) };
+	// random start position
+	SetRandomStartPosition();
 
 	for (int i = 0; i < ARRAY_LENGTH(mUpgrades); i++) {
 		mUpgrades[i].Reset();
 	}
 
+	for (int i = 0; i < mRecentPositions.size(); i++) {
+		mRecentPositions[i] = mPosition;
+	}
+
+	// slightly dangerous since we are trusting that we are tracking the same number of recent facings for the tank body and the tank gun
+	for (int i = 0; i < mRecentBodyFacings.size(); i++) {
+		mRecentBodyFacings[i] = 0.0f;
+		mRecentGunFacings[i] = 0.0f;
+	}
+
 	mBullets.Reset();
 
+}
+
+void Player::SetRandomStartPosition()
+{
+
+	srand(static_cast<int>(time(NULL)));
+
+	int spawnPicker = rand() % 3;
+	float xMod = 0;
+	float yMod = 0;
+
+	switch (spawnPicker) {
+	case 0:
+		xMod = GetScreenWidth() / 10.0f;
+		yMod = GetScreenHeight() / 10.0f;
+		break;
+	case 1:
+		xMod = GetScreenWidth() / -10.0f;
+		yMod = GetScreenHeight() / 10.0f;
+		break;
+	case 2:
+		xMod = GetScreenWidth() / 10.0f;
+		yMod = GetScreenHeight() / -10.0f;
+		break;
+	case 3:
+		xMod = GetScreenWidth() / -10.0f;
+		yMod = GetScreenHeight() / -10.0f;
+		break;
+	}
+
+	mPosition = Vector2{ (GetScreenWidth() / 2.0f) - xMod, (GetScreenHeight() / 2.0f) - xMod };
 }

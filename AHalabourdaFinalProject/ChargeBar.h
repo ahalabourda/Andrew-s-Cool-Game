@@ -27,7 +27,8 @@ private:
 	inline static const float msFillMax = 100.0f;
 	float mFillCurrent = 0.0f;
 
-	const float mLabelFontSize = 24.0f;
-	const Color mLabelColor = BLACK;
+	inline static const float mLabelFontSize = 24.0f;
+	/*inline static const Color mLabelColor{ 255, 255, 255, 200 };*/
+	inline static const Color mLabelColor = BLACK;
 
 };

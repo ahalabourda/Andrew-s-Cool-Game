@@ -7,8 +7,6 @@ class Enemy : public Poolable
 {
 
 public:
-
-	Enemy();
 	
 	void Tick(const Vector2 & targetPosition);
 
@@ -17,7 +15,11 @@ public:
 	Vector2 GetPosition() const { return mPosition; }
 	Rectangle GetRectangle() const { return mRect; }
 	int GetAgeInMilliseconds() const;
-	Color GetActualColour() const { return Color{ static_cast<unsigned char>(msColour.r * (healthCurrent / healthMax)), msColour.g , msColour.b, msColour.a }; }
+	Color GetActualColour() const { 
+		return Color{	static_cast<unsigned char>(msColour.r * (healthCurrent / healthMax)), 
+						static_cast<unsigned char>(msColour.g * (healthCurrent / healthMax)),
+						static_cast<unsigned char>(msColour.b * (healthCurrent / healthMax)),
+						msColour.a }; }
 
 	// takes damage
 	// deactivates self if health drops below zero
@@ -36,7 +38,7 @@ private:
 	// "inline" here is a c++17 thing that allows us to initialize static const member variables in-class rather than in the .cpp. very nice
 	inline static const float msSize = 20.0f;
 	inline static const float msGrowthRate = 1.1f;
-	inline static const Color msColour{ 200, 30, 30, 255 };
+	inline static const Color msColour{ 180, 180, 180, 200 };
 	inline static const float msSpeed = 2.0f;
 
 	Vector2 mPosition { 0, 0 };

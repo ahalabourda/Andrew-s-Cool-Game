@@ -33,7 +33,7 @@ private:
 	inline static const float msSize = 3.0f;
 	inline static const float msDamage = 5.0f;
 	inline static const float msSpeed = 10.0f;
-	inline static const Color msColour{ 50, 50, 50, 255 };
+	inline static const Color msColour{ 255, 255, 255, 255 };
 
 	bool mIsActive = false;
 

@@ -335,7 +335,6 @@
     <ClCompile Include="ChargeBar.cpp" />
     <ClCompile Include="ChargeZone.cpp" />
     <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -347,7 +346,6 @@
     <ClInclude Include="ChargeBar.h" />
     <ClInclude Include="ChargeZone.h" />
     <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Player.h" />
