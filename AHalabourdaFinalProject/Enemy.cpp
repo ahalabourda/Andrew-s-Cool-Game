@@ -4,10 +4,15 @@
 #include <math.h>
 #include <iostream>
 
+Texture2D Enemy::mSprite;
+
+void Enemy::InitializeSprite() {
+	mSprite = LoadTexture("art/asteroid.png");
+}
+
 void Enemy::Tick(const Vector2 & target)
 {
 	
-	// 
 	float deltaX = target.x - mPosition.x;
 	float deltaY = target.y - mPosition.y;
 

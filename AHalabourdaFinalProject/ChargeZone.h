@@ -38,7 +38,7 @@ private:
 
 	Rectangle mTrigger;
 
-	// these colours get overwritten in the constructor
+	// these colours get set in the constructor based on what type of upgrade this zone corresponds to
 	Color mInactiveColour; 
 	Color mActiveColour;
 	Color mBarColour;

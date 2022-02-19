@@ -25,11 +25,13 @@ public:
 
 	// takes damage
 	// deactivates self if health drops below zero
-	// also returns "true" if we died
+	// also returns "true" if we died so game manager can know
 	bool TakeDamage(float pDamage);
 
 	void Activate();
 	void Deactivate();
+
+	static void InitializeSprite();
 
 private:
 
@@ -47,9 +49,12 @@ private:
 	Vector2 mPosition { 0, 0 };
 	Rectangle mRect{ 0, 0, msSize, msSize };
 
-	const Texture2D mSprite = LoadTexture("art/asteroid.png");
+	// unsure if i can actually make this static... :/
+	// getting deep, confusing raylib access violations when i try
+	// would be nice to not have 128 dupes of this texture floating around though
+	static Texture2D mSprite;
 
-	float mHealthMax = 100.0f;
+	inline static float mHealthMax = 100.0f;
 	float mHealthCurrent = mHealthMax;
 
 	float mBaseRotation = static_cast<float>(rand() % 360);

@@ -26,12 +26,16 @@ int main(void)
     const int tickRate = 60;
 
     InitWindow(screenWidth, screenHeight, "Andrew's Cool Game");
+    InitAudioDevice();
+
+    std::cout << "Audio ready? " << IsAudioDeviceReady() << std::endl;
 
     SetTargetFPS(tickRate);               // Set our game to run at 60 frames-per-second
     
     // beast boy
     GameManager gm;
-    SoundManager sm;
+    SoundManager::InitializeSounds();
+    Enemy::InitializeSprite();
 
     //--------------------------------------------------------------------------------------
 

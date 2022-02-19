@@ -65,6 +65,7 @@ void Player::Shoot(float directionX, float directionY)
 		mTicksSinceLastShot = 0;
 		mBullets.GetNextAvailable()->Activate(mPosition, atan2f(directionY, directionX));
 		SoundManager::TriggerSound("gunshot");
+		//PlaySound(LoadSound("sounds/gunshot.mp3"));
 	}
 
 	if (directionX != 0.0f || directionY != 0.0f) {
