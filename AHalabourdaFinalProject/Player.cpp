@@ -64,8 +64,7 @@ void Player::Shoot(float directionX, float directionY)
 	if (mTicksSinceLastShot > GetActualTicksPerShot()) {
 		mTicksSinceLastShot = 0;
 		mBullets.GetNextAvailable()->Activate(mPosition, atan2f(directionY, directionX));
-		SoundManager::TriggerSound("gunshot");
-		//PlaySound(LoadSound("sounds/gunshot.mp3"));
+		SoundManager::TriggerSound(SoundManager::SoundKey::Gunshot);
 	}
 
 	if (directionX != 0.0f || directionY != 0.0f) {
@@ -116,6 +115,9 @@ void Player::IncrementUpgradeLevel(const Upgrade::UpgradeType& type)
 			mUpgrades[3].Increment();
 			break;
 	}
+
+	SoundManager::TriggerSound(SoundManager::SoundKey::UpgradeDing);
+
 }
 
 int Player::GetUpgradeLevel(const Upgrade::UpgradeType& type) const
@@ -134,7 +136,8 @@ int Player::GetUpgradeLevel(const Upgrade::UpgradeType& type) const
 	}
 }
 
-// had to steal this math from: https://www.themathdoctors.org/averaging-angles/
+// some necessary fancy footwork here because we want the average of 359 degrees and 1 degree to be 0, but when computed naively it averages to 180 (which is technically correct, but is not useful for our purposes)
+// had to steal the math from: https://www.themathdoctors.org/averaging-angles/
 // good thing to learn though
 float Player::GetSmoothedAngle(const std::deque<float>& pAngles) const
 {

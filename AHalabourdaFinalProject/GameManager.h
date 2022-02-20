@@ -56,10 +56,14 @@ private:
 	const Texture2D mBackground = LoadTexture("art/space.png");
 
 	// enemy stuff
-	int mEnemySpawnFrequency = 1;
-	const float mEnemySpawnAccelerationRate = 1.1f;
+	const int mTicksPerEnemySpawnBase = 100;
+	const float mEnemySpawnAccelerationRate = .8f;
+	int mTicksSinceLastEnemySpawn = 0;
+
+	int GetActualTicksPerEnemySpawn() const;
+
 	int mCurrentDifficultyLevel = 1;
-	const int mLevelDurationInSeconds = 30;
+	const int mLevelDurationInSeconds = 20;
 
 	// enemy management
 	ObjectPool<Enemy> mEnemies = ObjectPool<Enemy>(128);

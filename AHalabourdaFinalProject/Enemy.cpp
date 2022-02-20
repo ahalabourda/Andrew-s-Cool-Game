@@ -75,6 +75,12 @@ void Enemy::Deactivate()
 	mTextureScale = 1.0f;
 }
 
+// separating this out so that we can reset enemies between rounds without all of them making a death sound
+void Enemy::Die() {
+	SoundManager::TriggerSound(SoundManager::SoundKey::AsteroidDeath);
+	Deactivate();
+}
+
 void Enemy::PlaceRandomly()
 {
 	
@@ -120,13 +126,14 @@ bool Enemy::IsCollidingWithPlayer(const Vector2& pPlayerPosition)
 bool Enemy::TakeDamage(float pDamage)
 {
 
+	SoundManager::TriggerSound(SoundManager::SoundKey::Impact);
+
 	mHealthCurrent -= pDamage;
 	if (mHealthCurrent <= 0.0f) {
-		Deactivate();
+		Die();
 		return true;
 	}
-	else {
-		SoundManager::TriggerSound("impact");
+	else{
 		return false;
 	}
 

@@ -42,7 +42,22 @@ void GameManager::Tick()
         mCurrentDifficultyLevel++;
     }
 
-    AttemptEnemySpawn();
+    
+    mTicksSinceLastEnemySpawn++;
+
+    if (mTicksSinceLastEnemySpawn >= GetActualTicksPerEnemySpawn()) {
+
+        std::cout << "Spawning enemy because " << mTicksSinceLastEnemySpawn << " >= " << GetActualTicksPerEnemySpawn() << std::endl;
+
+        mTicksSinceLastEnemySpawn = 0;
+
+        try {
+            mEnemies.GetNextAvailable()->Activate();
+        }
+        catch (std::exception e) {
+            std::cerr << "Failed to spawn an enemy, but not crashing :)" << std::endl;
+        }
+    }
 
     ProcessEnemies();
 
@@ -126,21 +141,6 @@ void GameManager::Reset()
 
 }
 
-void GameManager::AttemptEnemySpawn()
-{
-    // try to spawn an enemy
-    if (rand() % 100 <= mEnemySpawnFrequency * (mEnemySpawnAccelerationRate * mCurrentDifficultyLevel)) {
-
-        try {
-            mEnemies.GetNextAvailable()->Activate();
-        }
-        catch (std::exception e) {
-            std::cerr << "Failed to spawn an enemy, but not crashing :)" << std::endl;
-        }
-
-    }
-}
-
 void GameManager::ProcessEnemies()
 {
 
@@ -182,4 +182,10 @@ void GameManager::ProcessEnemies()
 
     }
 
+}
+
+// multiplies the spawn rate by .8 each time we move up a level
+int GameManager::GetActualTicksPerEnemySpawn() const
+{
+    return mTicksPerEnemySpawnBase * static_cast<int>(std::powf(mEnemySpawnAccelerationRate, mCurrentDifficultyLevel - 1.0f));
 }

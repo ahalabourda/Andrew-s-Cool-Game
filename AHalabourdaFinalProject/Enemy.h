@@ -31,6 +31,8 @@ public:
 	void Activate();
 	void Deactivate();
 
+	void Die();
+
 	static void InitializeSprite();
 
 private:

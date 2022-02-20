@@ -6,10 +6,13 @@ class SoundManager
 {
 
 public:
+
+	enum class SoundKey { Gunshot, Impact, AsteroidDeath, PlayerDeath, UpgradeDing };
+
 	static void InitializeSounds();
-	static void TriggerSound(const std::string& pSoundName);
+	static void TriggerSound(SoundManager::SoundKey pSoundKey);
 
 private:
-	static std::map<std::string, Sound> mSounds;
+	static std::map<SoundManager::SoundKey, Sound> mSounds;
 
 };
