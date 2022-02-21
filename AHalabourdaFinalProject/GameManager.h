@@ -34,8 +34,10 @@ public:
 
 private:
 
-	void AttemptEnemySpawn();
+	void ProcessSpawning();
 	void ProcessEnemies();
+	void ProcessBullets();
+	void ProcessZones();
 
 	// player stuff
 	Player mPlayer;
@@ -70,5 +72,5 @@ private:
 
 	// charge zone stuff!
 	ChargeZone mZones[4] = { ChargeZone(Upgrade::UpgradeType::MoveSpeed), ChargeZone(Upgrade::UpgradeType::ScoreMultiplier), ChargeZone(Upgrade::UpgradeType::Damage), ChargeZone(Upgrade::UpgradeType::FireRate) };
-
+	ChargeZone* mActiveZone = &mZones[0];
 };

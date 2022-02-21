@@ -7,59 +7,20 @@ void GameManager::Tick()
 {
 
     // UPGRADE ZONE STUFF
-
-    // find active charge zone
-    for (int i = 0; i < ARRAY_LENGTH(mZones); i++) {
-        
-        if (CheckCollisionPointRec(mPlayer.GetPosition(), mZones[i].GetTriggerRect())) {
-            mZones[i].SetIsActive(true);
-        }
-        else {
-            // we are just spamming this to false every tick... hmm. maybe an event based system is in order
-            mZones[i].SetIsActive(false);
-        }
-
-        // TODO: discuss how to do this properly
-        if (mZones[i].Tick() == true) {
-            mPlayer.IncrementUpgradeLevel(mZones[i].GetUpgradeType());
-        }
-
-    }
+    ProcessZones();
     
     // PLAYER STUFF
     mPlayer.Tick();
 
-
     // GAME OBJECT STUFF
+    ProcessSpawning();
+    ProcessBullets();
+    ProcessEnemies();
 
-    // tick da bullets
-    for (int i = 0; i < mPlayer.GetBullets().GetSize(); i++) {
-        (mPlayer.GetBullets().GetItems() + i)->Tick();
-    }
-    
     // increment the difficulty level every 30 seconds
     if (GetGameDurationInSeconds() > mLevelDurationInSeconds * mCurrentDifficultyLevel) {
         mCurrentDifficultyLevel++;
     }
-
-    
-    mTicksSinceLastEnemySpawn++;
-
-    if (mTicksSinceLastEnemySpawn >= GetActualTicksPerEnemySpawn()) {
-
-        std::cout << "Spawning enemy because " << mTicksSinceLastEnemySpawn << " >= " << GetActualTicksPerEnemySpawn() << std::endl;
-
-        mTicksSinceLastEnemySpawn = 0;
-
-        try {
-            mEnemies.GetNextAvailable()->Activate();
-        }
-        catch (std::exception e) {
-            std::cerr << "Failed to spawn an enemy, but not crashing :)" << std::endl;
-        }
-    }
-
-    ProcessEnemies();
 
 }
 
@@ -132,11 +93,29 @@ void GameManager::Reset()
 
     mPlayer.Reset();
 
-    mEnemySpawnFrequency = 1;
     mCurrentDifficultyLevel = 1;
 
     for (int i = 0; i < ARRAY_LENGTH(mZones); i++) {
         mZones[i].Reset();
+    }
+
+}
+
+void GameManager::ProcessSpawning()
+{
+
+    mTicksSinceLastEnemySpawn++;
+
+    if (mTicksSinceLastEnemySpawn >= GetActualTicksPerEnemySpawn()) {
+
+        mTicksSinceLastEnemySpawn = 0;
+
+        try {
+            mEnemies.GetNextAvailable()->Activate();
+        }
+        catch (std::exception e) {
+            std::cerr << "Failed to spawn an enemy, but not crashing :)" << std::endl;
+        }
     }
 
 }
@@ -184,8 +163,41 @@ void GameManager::ProcessEnemies()
 
 }
 
+void GameManager::ProcessBullets()
+{
+    // tick da bullets
+    for (int i = 0; i < mPlayer.GetBullets().GetSize(); i++) {
+        (mPlayer.GetBullets().GetItems() + i)->Tick();
+    }
+}
+
+void GameManager::ProcessZones()
+{
+    // first we check the currently active zone to see if they are gone
+    if (!CheckCollisionPointRec(mPlayer.GetPosition(), mActiveZone->GetTriggerRect())) {
+
+        mActiveZone->SetIsActive(false);
+
+        for (int i = 0; i < ARRAY_LENGTH(mZones); i++) {
+            if (CheckCollisionPointRec(mPlayer.GetPosition(), mZones[i].GetTriggerRect())) {
+                mActiveZone = &mZones[i];
+                mActiveZone->SetIsActive(true);
+
+            }
+        }
+
+    }
+    else {
+        //std::cout << "not in zone " << (int)mActiveZone->GetUpgradeType() << std::endl;
+    }
+
+    if (mActiveZone->Tick() == true) {
+        mPlayer.IncrementUpgradeLevel(mActiveZone->GetUpgradeType());
+    }
+}
+
 // multiplies the spawn rate by .8 each time we move up a level
 int GameManager::GetActualTicksPerEnemySpawn() const
 {
-    return mTicksPerEnemySpawnBase * static_cast<int>(std::powf(mEnemySpawnAccelerationRate, mCurrentDifficultyLevel - 1.0f));
+    return mTicksPerEnemySpawnBase * (std::powf(mEnemySpawnAccelerationRate, mCurrentDifficultyLevel - 1.0f));
 }
