@@ -26,8 +26,10 @@ public:
 	void EndGame();
 	void Reset();
 
+	// these two are const references to prevent a copy
 	const GameState & GetCurrentGameState() const { return mCurrentGameState; }
 	const Color & GetBackgroundColour() const { return mBackgroundColour; }
+
 	int GetScore() const { return mScore; }
 	int GetGameDurationInSeconds() const { return static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - mTimerBegin).count()); }
 	int GetGameDurationInMilliseconds() const { return static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - mTimerBegin).count()); }
@@ -55,8 +57,6 @@ private:
 
 	// upgrades
 
-	const Texture2D mBackground = LoadTexture("art/space.png");
-
 	// enemy stuff
 	const int mTicksPerEnemySpawnBase = 100;
 	const float mEnemySpawnAccelerationRate = .8f;
@@ -73,4 +73,7 @@ private:
 	// charge zone stuff!
 	ChargeZone mZones[4] = { ChargeZone(Upgrade::UpgradeType::MoveSpeed), ChargeZone(Upgrade::UpgradeType::ScoreMultiplier), ChargeZone(Upgrade::UpgradeType::Damage), ChargeZone(Upgrade::UpgradeType::FireRate) };
 	ChargeZone* mActiveZone = &mZones[0];
+
+	const Texture2D mBackground = LoadTexture("art/space.png");
+
 };

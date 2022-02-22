@@ -23,7 +23,6 @@ public:
 	void Shoot(float directionX, float directionY);
 
 	const float GetActualDamage() const { return mDamage * static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::Damage)); }
-	const float & GetSize() const { return mSize; };
 	const Color & GetColour() const { return mColour; }
 	const Vector2 & GetPosition() const { return mPosition; }
 	float GetX() const { return mPosition.x; };
@@ -49,7 +48,6 @@ private:
 	const float mDamage = 10.0f;
 	const float mSpeed = 3.5f;
 	const float mSpeedUpgradeValue = 1.0f;
-	const float mSize = 25.0f;
 	const Color mColour { 0, 0, 0, 255 };
 	const Color mBorderColour{ 255, 255, 255, 255 };
 

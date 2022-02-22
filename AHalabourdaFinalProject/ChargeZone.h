@@ -17,7 +17,8 @@ public:
 	bool GetIsActive() const { return mIsActive; }
 	void SetIsActive(bool newValue) { mIsActive = newValue; }
 	int GetCurrentLevel() const { return mCurrentLevel; }
-	void IncrementLevel() { ++mCurrentLevel; mChargeAmountPerTick *= msChargeSlowdownModifier; if (mCurrentLevel > mLevelMax) { mCurrentLevel = mLevelMax; } }
+	//void IncrementLevel() { ++mCurrentLevel; mChargeAmountPerTick *= msChargeSlowdownModifier; if (mCurrentLevel > mLevelMax) { mCurrentLevel = mLevelMax; } }
+	void IncrementLevel() { ++mCurrentLevel; if (mCurrentLevel > mLevelMax) { mCurrentLevel = mLevelMax; } }
 	bool IsMaxed() const { return mCurrentLevel >= mLevelMax; }
 
 	Upgrade::UpgradeType GetUpgradeType() const { return mUpgradeType; }
@@ -48,16 +49,17 @@ private:
 
 	inline static const float msChargeValueMax = 100.0f;
 	inline static const float msChargeSlowdownModifier = 0.8f;
+	inline static const float mChargeAmountPerTick = 0.2f;
+	inline static const float mDrainAmountPerTick = 0.025f;
 	float mChargeValueCurrent = 0.0f;
-	float mChargeAmountPerTick = 0.2f;
-	float mDrainAmountPerTick = 0.05f;
 
 	int mCurrentLevel = 1;
 	inline static const int mLevelMax = 5;
 
 	bool mIsActive = false;
 
-	float GetWidth() const { return static_cast<float>(GetScreenWidth() / 2.0f); }
-	float GetHeight() const { return static_cast<float>(GetScreenHeight() / 2.0f); }
+	static float GetWidth() { return static_cast<float>(GetScreenWidth() / 2.0f); }
+	static float GetHeight() { return static_cast<float>(GetScreenHeight() / 2.0f); }
+	float GetActualChargeAmountPerTick() const;
 
 };

@@ -34,8 +34,13 @@ int main(void)
     
     // beast boy
     GameManager gm;
+
+    // these static methods exist because we don't want to duplicate the sounds/textures that enemies use
+    // BUT raylib's LoadTexture() and LoadSound() methods only work after some runtime init stuff has happened
+    // so we use these to initialize them slightly later in runtime and it seems to work
     SoundManager::InitializeSounds();
     Enemy::InitializeSprite();
+    ChargeBar::InitializeChargeBarSize();
 
     //--------------------------------------------------------------------------------------
 

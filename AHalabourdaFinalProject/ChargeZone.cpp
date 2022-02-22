@@ -87,7 +87,9 @@ bool ChargeZone::Tick()
 			return false;
 		}
 		else {
-			mChargeValueCurrent = std::clamp(mChargeValueCurrent + mChargeAmountPerTick, 0.0f, mChargeBar.GetFillMax());
+
+			
+			mChargeValueCurrent = std::clamp(mChargeValueCurrent + GetActualChargeAmountPerTick(), 0.0f, mChargeBar.GetFillMax());
 
 			mChargeBar.SetFillAmount(mChargeValueCurrent);
 
@@ -143,7 +145,7 @@ void ChargeZone::Draw() const
 	// okay this has to be horrible
 	DrawText(	tmp.c_str(), 
 				static_cast<int>(mBasePosition.x + (mTrigger.width / 2) - (levelOffset / 2)),
-				static_cast<int>(mBasePosition.y + mChargeBar.GetHeight() * 4 + mLabelFontSize),
+				static_cast<int>(mBasePosition.y + ChargeBar::GetHeight() * 2 + mLabelFontSize),
 				mLabelFontSize,
 				mLabelColour);
 	
@@ -153,7 +155,12 @@ void ChargeZone::Reset()
 {
 	
 	mChargeValueCurrent = 0.0f;
-	mChargeAmountPerTick = 0.2f;
+	//mChargeAmountPerTick = 0.2f;
 	mCurrentLevel = 1;
 
+}
+
+float ChargeZone::GetActualChargeAmountPerTick() const
+{
+	return mChargeAmountPerTick * (std::powf(msChargeSlowdownModifier, mCurrentLevel - 1.0f));
 }

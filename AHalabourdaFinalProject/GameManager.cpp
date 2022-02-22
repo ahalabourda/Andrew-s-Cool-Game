@@ -176,6 +176,7 @@ void GameManager::ProcessZones()
     // first we check the currently active zone to see if they are gone
     if (!CheckCollisionPointRec(mPlayer.GetPosition(), mActiveZone->GetTriggerRect())) {
 
+        // if the player is NOT in the "active" zone, this means they just moved to another zone! so we find which one they moved to and then update the "active" tracking accordingly
         mActiveZone->SetIsActive(false);
 
         for (int i = 0; i < ARRAY_LENGTH(mZones); i++) {
@@ -186,9 +187,6 @@ void GameManager::ProcessZones()
             }
         }
 
-    }
-    else {
-        //std::cout << "not in zone " << (int)mActiveZone->GetUpgradeType() << std::endl;
     }
 
     if (mActiveZone->Tick() == true) {
