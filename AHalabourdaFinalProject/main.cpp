@@ -14,6 +14,8 @@
 #include "GameManager.h"
 #include "SoundManager.h"
 
+void DrawTextCentered(std::string pText, int pPositionY, int pFontSize = 24, Color pColour = BLACK);
+
 int main(void)
 {
 
@@ -52,17 +54,17 @@ int main(void)
             
             case GameManager::GameState::Setup:
 
-                if (!IsGamepadAvailable(0) && GetGamepadAxisCount(0) < 2) {
-                    BeginDrawing();
-
-                    ClearBackground(gm.GetBackgroundColour());
-                    DrawText("Please connect a gamepad with two joysticks!", 190, 50, 20, BLACK);
-
-                    EndDrawing();
-                }
-                else {
+                if (GetGamepadButtonPressed() != -1) {
                     gm.StartGame();
                 }
+
+                BeginDrawing();
+
+                ClearBackground(gm.GetBackgroundColour());
+                DrawTextCentered("Welcome to Andrew's Cool Game!!\r\nPress any button to start!", GetScreenHeight() / 8, 42, BLACK);
+                //DrawText("Welcome to Andrew's Cool Game!", GetScreenWidth() )
+
+                EndDrawing();
 
                 break;
 
@@ -114,4 +116,10 @@ int main(void)
     //--------------------------------------------------------------------------------------
 
     return 0;
+}
+
+void DrawTextCentered(std::string pText, int pPositionY, int pFontSize, Color pColour) {
+    
+    DrawText(pText.c_str(), (GetScreenWidth() / 2) - (MeasureText(pText.c_str(), pFontSize) / 2), pPositionY, pFontSize, pColour);
+
 }

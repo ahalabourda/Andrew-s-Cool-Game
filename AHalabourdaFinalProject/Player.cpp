@@ -12,7 +12,7 @@ Player::Player()
 	SetRandomStartPosition();
 
 	// prefill smoothing queues
-	int facingsToStore = 10;
+	int facingsToStore = 15;
 	int positionsToStore = 30;
 
 	for (int i = 0; i < facingsToStore; i++) {
@@ -43,8 +43,8 @@ void Player::Tick()
 void Player::Move(float movementX, float movementY)
 {
 
-	mPosition.x = std::clamp(mPosition.x + (movementX * (mSpeed + static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed) * mSpeedUpgradeValue))), 0.0f, (float)GetScreenWidth());
-	mPosition.y = std::clamp(mPosition.y + (movementY * (mSpeed + static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed) * mSpeedUpgradeValue))), 0.0f, (float)GetScreenHeight());
+	mPosition.x = std::clamp(mPosition.x + (movementX * (mSpeed + static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed) * mSpeedUpgradeValue))), 0.0f, static_cast<float>(GetScreenWidth()));
+	mPosition.y = std::clamp(mPosition.y + (movementY * (mSpeed + static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed) * mSpeedUpgradeValue))), 0.0f, static_cast<float>(GetScreenHeight()));
 
 	if (movementX != 0.0f || movementY != 0.0f) {
 		//mLatestBodyFacing = atan2f(movementX, -movementY) * 180 / 3.141592653f;
