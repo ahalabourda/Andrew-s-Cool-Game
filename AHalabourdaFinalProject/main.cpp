@@ -14,6 +14,7 @@
 #include "GameManager.h"
 #include "SoundManager.h"
 
+
 void DrawTextCentered(std::string pText, int pPositionY, int pFontSize = 24, Color pColour = BLACK);
 
 int main(void)
@@ -29,8 +30,6 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "Andrew's Cool Game");
     InitAudioDevice();
-
-    std::cout << "Audio ready? " << IsAudioDeviceReady() << std::endl;
 
     SetTargetFPS(tickRate);               // Set our game to run at 60 frames-per-second
     
@@ -53,20 +52,78 @@ int main(void)
         switch (gm.GetCurrentGameState()) {
             
             case GameManager::GameState::Setup:
+            {
+
+
+                // Update
 
                 if (GetGamepadButtonPressed() != -1) {
                     gm.StartGame();
                 }
 
+
+                // Set the window's cursor to the I-Beam
+                SetMouseCursor(MOUSE_CURSOR_IBEAM);
+
+                // Get char pressed (unicode character) on the queue
+                int key = GetCharPressed();
+
+                // Check if more characters have been pressed on the same frame
+                while (key > 0)
+                {
+                    // NOTE: Only allow keys in range [32..125]
+                    if ((key >= 32) && (key <= 125) && (gm.GetUserInfo().GetName().length() < gm.GetUserInfo().GetMaxNameLength()))
+                    {
+                        gm.GetUserInfo().AddLetter(static_cast<char>(key));
+                    }
+
+                    key = GetCharPressed();  // Check next character in the queue
+                }
+
+                if (IsKeyPressed(KEY_BACKSPACE))
+                {
+                    gm.GetUserInfo().RemoveLetter();
+
+                }
+
+
+                gm.GetUserInfo().Tick();
+
+                // Draw
+
                 BeginDrawing();
 
                 ClearBackground(gm.GetBackgroundColour());
-                DrawTextCentered("Welcome to Andrew's Cool Game!!\r\nPress any button to start!", GetScreenHeight() / 8, 42, BLACK);
+                DrawTextCentered("Welcome to Andrew's Cool Game!!\nEnter your name below for score keeping!", GetScreenHeight() / 8, 42, BLACK);
                 //DrawText("Welcome to Andrew's Cool Game!", GetScreenWidth() )
+
+                //DrawTextCentered("Input your name for the high score leaderboards!", 340, gm.GetUserInfo().GetFontSize(), BLACK);
+
+                DrawText("Name: ", GetScreenWidth() / 2.0f - gm.GetUserInfo().GetTextBox().width, gm.GetUserInfo().GetTextBox().y, gm.GetUserInfo().GetFontSize(), BLACK);
+
+                DrawRectangleRec(gm.GetUserInfo().GetTextBox(), LIGHTGRAY);
+
+                DrawRectangleLines(static_cast<int>(gm.GetUserInfo().GetTextBox().x), static_cast<int>(gm.GetUserInfo().GetTextBox().y), static_cast<int>(gm.GetUserInfo().GetTextBox().width), static_cast<int>(gm.GetUserInfo().GetTextBox().height), DARKGREEN);
+
+
+                DrawText(gm.GetUserInfo().GetName().c_str(), static_cast<int>(gm.GetUserInfo().GetTextBox().x) + 5, static_cast<int>(gm.GetUserInfo().GetTextBox().y) + 8, 40, DARKGREEN);
+
+                //DrawText(TextFormat("INPUT CHARS: %i/%i", letterCount, MAX_INPUT_CHARS), 315, 250, 20, DARKGRAY);
+
+                if (gm.GetUserInfo().GetName().length() < gm.GetUserInfo().GetMaxNameLength())
+                {
+                    // Draw blinking underscore char
+                    //if (((framesCounter / 20) % 2) == 0) DrawText("_", (int)textBox.x + 8 + MeasureText(name, 40), (int)textBox.y + 12, 40, MAROON);
+                    if (gm.GetGameDurationInSeconds() % 2 == 0) {
+                        DrawText("_", static_cast<int>(gm.GetUserInfo().GetTextBox().x + 8) + MeasureText(gm.GetUserInfo().GetName().c_str(), gm.GetUserInfo().GetFontSize()), static_cast<int>(gm.GetUserInfo().GetTextBox().y + 12), gm.GetUserInfo().GetFontSize(), DARKGREEN);
+                    }
+                }
+
 
                 EndDrawing();
 
                 break;
+            }
 
             case GameManager::GameState::Playing:
 
@@ -88,7 +145,26 @@ int main(void)
                 break;
             case GameManager::GameState::PostGame:
 
-                BeginDrawing();
+                // old Update
+                if (GetGamepadButtonPressed() != -1) {
+
+                    gm.Reset();
+
+                }
+
+                // Update
+                // Update
+                //----------------------------------------------------------------------------------
+
+
+
+                
+
+                // Draw
+
+                
+
+                // vvvvv OLD STUFF vvvvvvvv
 
                 ClearBackground(gm.GetBackgroundColour());
                 DrawText("You died! :(", 50, 50, 100, WHITE);
@@ -98,11 +174,7 @@ int main(void)
                 DrawText("Press any button to play again!", 50, GetScreenHeight() - 100, 50, WHITE);
 
                 // checks for any button
-                if (GetGamepadButtonPressed() != -1) {
-                    
-                    gm.Reset();
-
-                }
+                
 
                 EndDrawing();
 

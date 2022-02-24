@@ -9,6 +9,7 @@
 #ifndef  ARRAY_LENGTH
 #define ARRAY_LENGTH(array) (sizeof((array))/sizeof((array)[0]))
 #endif // ! ARRAY_LENGTH
+#include <UserInfo.h>
 
 class GameManager
 {
@@ -33,6 +34,8 @@ public:
 	int GetScore() const { return mScore; }
 	int GetGameDurationInSeconds() const { return static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - mTimerBegin).count()); }
 	int GetGameDurationInMilliseconds() const { return static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - mTimerBegin).count()); }
+
+	UserInfo & GetUserInfo() { return mUserInfo; };
 
 private:
 
@@ -73,6 +76,8 @@ private:
 	// charge zone stuff!
 	ChargeZone mZones[4] = { ChargeZone(Upgrade::UpgradeType::MoveSpeed), ChargeZone(Upgrade::UpgradeType::ScoreMultiplier), ChargeZone(Upgrade::UpgradeType::Damage), ChargeZone(Upgrade::UpgradeType::FireRate) };
 	ChargeZone* mActiveZone = &mZones[0];
+
+	UserInfo mUserInfo;
 
 	const Texture2D mBackground = LoadTexture("art/space.png");
 

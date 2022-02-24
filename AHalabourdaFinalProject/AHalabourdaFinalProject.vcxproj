@@ -340,6 +340,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Upgrade.cpp" />
+    <ClCompile Include="UserInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
@@ -352,6 +353,7 @@
     <ClInclude Include="Poolable.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Upgrade.h" />
+    <ClInclude Include="UserInfo.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ObjectPool.inl" />
