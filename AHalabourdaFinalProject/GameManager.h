@@ -4,12 +4,12 @@
 #include "Player.h"
 #include "ObjectPool.h"
 #include "Bullet.h"
+#include "UserInfo.h"
 #include <chrono>
 
 #ifndef  ARRAY_LENGTH
 #define ARRAY_LENGTH(array) (sizeof((array))/sizeof((array)[0]))
 #endif // ! ARRAY_LENGTH
-#include <UserInfo.h>
 
 class GameManager
 {

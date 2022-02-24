@@ -1,8 +1,9 @@
 #pragma once
 #include "Enemy.h"
 #include "ObjectPool.h"
+#include "Player.h"
+
 #include <chrono>
-#include <Player.h>
 
 class EnemyManager
 {
