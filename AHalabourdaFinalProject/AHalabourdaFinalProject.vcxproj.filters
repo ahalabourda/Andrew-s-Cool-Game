@@ -20,9 +20,15 @@
     <ClCompile Include="Upgrade.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ChargeBar.cpp" />
-    <ClCompile Include="SoundManager.cpp" />
-    <ClCompile Include="UserInfo.cpp" />
+    <ClCompile Include="ChargeBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -60,9 +66,15 @@
     <ClInclude Include="Poolable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ChargeBar.h" />
-    <ClInclude Include="SoundManager.h" />
-    <ClInclude Include="UserInfo.h" />
+    <ClInclude Include="SoundManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ChargeBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ObjectPool.inl">
