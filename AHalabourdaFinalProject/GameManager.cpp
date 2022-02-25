@@ -79,6 +79,10 @@ void GameManager::StartGame()
 
 void GameManager::EndGame()
 {
+
+    // score submission!
+    
+
     mCurrentGameState = GameState::PostGame;
 }
 

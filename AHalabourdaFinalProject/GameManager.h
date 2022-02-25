@@ -35,7 +35,7 @@ public:
 	int GetGameDurationInSeconds() const { return static_cast<int>(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - mTimerBegin).count()); }
 	int GetGameDurationInMilliseconds() const { return static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - mTimerBegin).count()); }
 
-	UserInfo & GetUserInfo() { return mUserInfo; };
+	UserInfo & GetUserInfo() { return mUserInfo; }
 
 private:
 

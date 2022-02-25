@@ -51,9 +51,7 @@ private:
 	Vector2 mPosition { 0, 0 };
 	Rectangle mRect{ 0, 0, msSize, msSize };
 
-	// unsure if i can actually make this static... :/
-	// getting deep, confusing raylib access violations when i try
-	// would be nice to not have 128 dupes of this texture floating around though
+	// yay it's static now
 	static Texture2D mSprite;
 
 	inline static float mHealthMax = 100.0f;

@@ -13,7 +13,7 @@
 #include "ChargeZone.h"
 #include "GameManager.h"
 #include "SoundManager.h"
-
+#include "LeaderboardManager.h"
 
 void DrawTextCentered(std::string pText, int pPositionY, int pFontSize = 24, Color pColour = BLACK);
 
@@ -35,6 +35,11 @@ int main(void)
     
     // beast boy
     GameManager gm;
+
+    // http testing stuff
+    LeaderboardManager lm;
+
+    lm.Testeroonie();
 
     // these static methods exist because we don't want to duplicate the sounds/textures that enemies use
     // BUT raylib's LoadTexture() and LoadSound() methods only work after some runtime init stuff has happened

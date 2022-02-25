@@ -29,6 +29,9 @@
     <ClCompile Include="UserInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LeaderboardManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -74,6 +77,15 @@
     </ClInclude>
     <ClInclude Include="ChargeBar.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HTTPHeader.hpp">
+      <Filter>Includes</Filter>
+    </ClInclude>
+    <ClInclude Include="LeaderboardManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>Includes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
