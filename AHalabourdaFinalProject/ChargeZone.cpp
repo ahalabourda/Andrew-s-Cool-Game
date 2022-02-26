@@ -156,6 +156,7 @@ void ChargeZone::Reset()
 	
 	mChargeValueCurrent = 0.0f;
 	//mChargeAmountPerTick = 0.2f;
+	mChargeBar.SetFillAmount(0.0f);
 	mCurrentLevel = 1;
 
 }
