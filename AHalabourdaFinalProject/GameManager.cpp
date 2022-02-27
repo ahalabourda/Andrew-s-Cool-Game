@@ -22,6 +22,8 @@ void GameManager::Tick()
         mCurrentDifficultyLevel++;
     }
 
+    UpdateMusicStream(*SoundManager::GetMusic());
+
 }
 
 void GameManager::Draw() const
@@ -76,6 +78,8 @@ void GameManager::StartGame()
 {
     srand(static_cast<int>(time(NULL)));
     mCurrentGameState = GameState::Playing;
+    mActiveZone->SetIsActive(true);
+    SoundManager::StartMusic();
 }
 
 void GameManager::EndGame()
@@ -84,6 +88,9 @@ void GameManager::EndGame()
     // score submission!
     mLeaderboardManager->SubmitScore(mUserInfo.GetName(), mScore);
     mLeaderboardManager->UpdateLeaderboardData();
+
+    SoundManager::TriggerSound(SoundManager::SoundKey::PlayerDeath);
+    SoundManager::StopMusic();
 
     mCurrentGameState = GameState::PostGame;
 }
@@ -104,6 +111,8 @@ void GameManager::Reset()
     for (int i = 0; i < ARRAY_LENGTH(mZones); i++) {
         mZones[i].Reset();
     }
+
+    SoundManager::StartMusic();
 
 }
 
@@ -203,5 +212,5 @@ void GameManager::ProcessZones()
 // multiplies the spawn rate by .8 each time we move up a level
 int GameManager::GetActualTicksPerEnemySpawn() const
 {
-    return mTicksPerEnemySpawnBase * (std::powf(mEnemySpawnAccelerationRate, mCurrentDifficultyLevel - 1.0f));
+    return mTicksPerEnemySpawnBase * static_cast<int>(std::powf(mEnemySpawnAccelerationRate, mCurrentDifficultyLevel - 1.0f));
 }

@@ -50,7 +50,7 @@ private:
 	inline static const float msChargeValueMax = 100.0f;
 	inline static const float msChargeSlowdownModifier = 0.8f;
 	inline static const float mChargeAmountPerTick = 0.2f;
-	inline static const float mDrainAmountPerTick = 0.025f;
+	inline static const float mDrainAmountPerTick = 0.2f;
 	float mChargeValueCurrent = 0.0f;
 
 	int mCurrentLevel = 1;

@@ -7,10 +7,8 @@ class Bullet : public Poolable
 
 public:
 
-	Bullet();
-
 	void SetIsActive(bool newActiveState) { mIsActive = newActiveState; }
-	void Activate(Vector2 spawnPosition, float spawnRotation);
+	void Activate(Vector2 spawnPosition, float spawnRotation, int pDamageLevel);
 	void Deactivate();
 	void Draw() const;
 	void Tick();
@@ -21,6 +19,8 @@ public:
 	float GetSpeed() const { return Bullet::msSpeed; }
 	float GetSize() const { return Bullet::msSize; }
 
+	static void InitializeSprites();
+
 private:
 
 	std::chrono::steady_clock::time_point mTimerBegin;
@@ -30,10 +30,13 @@ private:
 
 	// static const int can be declared in here, but not the floats? weird quirk but stackoverflow seems to corroborate: https://stackoverflow.com/questions/185844/how-to-initialize-private-static-members-in-c
 	inline static const int msLifespanInMilliseconds = 3000; 
-	inline static const float msSize = 3.0f;
+	inline static const float msSize = 5.0f;
 	inline static const float msDamage = 5.0f;
 	inline static const float msSpeed = 10.0f;
 	inline static const Color msColour{ 255, 255, 255, 255 };
+	
+	static Texture2D mSprites[5];
+	Texture2D* mActiveSprite;
 
 	bool mIsActive = false;
 

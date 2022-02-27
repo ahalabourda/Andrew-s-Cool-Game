@@ -6,6 +6,7 @@
 #include "Bullet.h"
 #include "UserInfo.h"
 #include "LeaderboardManager.h"
+#include "SoundManager.h"
 #include <chrono>
 
 #ifndef  ARRAY_LENGTH

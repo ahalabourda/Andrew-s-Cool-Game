@@ -33,9 +33,9 @@ public:
 	void IncrementUpgradeLevel(const Upgrade::UpgradeType& type);
 	int GetUpgradeLevel(const Upgrade::UpgradeType& type) const;
 	
-	float GetLastBodyFacing() const { return mRecentBodyFacings.back(); }
+	float GetLastBodyFacing() const { return mRecentBodyFacings.front(); }
 
-	float GetLastGunFacing() const { return mRecentGunFacings.back(); }
+	float GetLastGunFacing() const { return mRecentGunFacings.front(); }
 
 	float GetSmoothedAngle(const std::deque<float> & pAngles) const;
 	Vector2 GetSmoothedPosition(const std::deque<Vector2>& pPositions) const;

@@ -44,6 +44,7 @@ int main(void)
     // so we use these to initialize them slightly later in runtime and it seems to work
     SoundManager::InitializeSounds();
     Enemy::InitializeSprite();
+    Bullet::InitializeSprites();
     ChargeBar::InitializeChargeBarSize();
 
     //--------------------------------------------------------------------------------------
@@ -57,16 +58,12 @@ int main(void)
             case GameManager::GameState::Setup:
             {
 
-
                 // Update
+                //----------------------------------------------------------------------------------
 
                 if (GetGamepadButtonPressed() != -1 && gm.GetUserInfo().GetName().length() > 0) {
                     gm.StartGame();
                 }
-
-
-                // Set the window's cursor to the I-Beam
-                SetMouseCursor(MOUSE_CURSOR_IBEAM);
 
                 // Get char pressed (unicode character) on the queue
                 int key = GetCharPressed();
@@ -89,10 +86,10 @@ int main(void)
 
                 }
 
-
                 gm.GetUserInfo().Tick();
 
                 // Draw
+                //----------------------------------------------------------------------------------
 
                 BeginDrawing();
 
@@ -101,7 +98,7 @@ int main(void)
                 // my unbelievably janky method for getting a new random colour every 1 second
                 // lol
                 // would NOT do this in a real project. but it's the last weekend before i start on my new team so it's staying because it works
-                srand(static_cast<int>(GetTime() + 333));
+                srand(static_cast<int>(GetTime() + 33));
 
                 Color randomColor{  static_cast<unsigned char>(rand() % 255),
                                     static_cast<unsigned char>(rand() % 255),
@@ -165,12 +162,8 @@ int main(void)
                 }
 
                 // Update
-                // Update
                 //----------------------------------------------------------------------------------
 
-
-
-                
 
                 // Draw
 
@@ -181,7 +174,7 @@ int main(void)
 
                 DrawText("Press any button to play again!", 50, GetScreenHeight() - 100, 50, WHITE);
 
-                DrawText(lm.GetLeaderboardData().c_str(), GetScreenWidth() - (MeasureText(lm.GetLeaderboardData().c_str(), lm.GetFontSize()) + lm.GetFontSize() * 2.0f ), GetScreenHeight() / 12, lm.GetFontSize(), BLACK);
+                DrawText(lm.GetLeaderboardData().c_str(), static_cast<int>( GetScreenWidth() - (MeasureText(lm.GetLeaderboardData().c_str(), lm.GetFontSize()) + lm.GetFontSize() * 2.0f ) ), GetScreenHeight() / 12, lm.GetFontSize(), WHITE);
 
                 EndDrawing();
 
