@@ -5,11 +5,21 @@ class LeaderboardManager
 {
 
 public:
-	void Testeroonie();
+	bool SubmitScore(std::string pUsername, int pScore);
 
-	bool SubmitScore(std::string pUsername, int pScore, int pMovespeedLevel, int pMultiplierLevel, int pDamageLevel, int pFirerateLevel, int pDurationInSeconds, int pAsteroidsExploded);
+	std::string GetLeaderboardData() const { return mLeaderboardData; }
+	void UpdateLeaderboardData();
+
+	const int GetFontSize() const { return mFontSize; }
 
 private:
-	std::string mBaseURL = "https://andrew.gg/spacetank/submit.php";
+	// http request library doesn't allow https :[
+	// seems complicated to implement
+	std::string mBaseURL = "http://spacetank.andrew.gg/submit.php";
+
+	std::string mLeaderboardData = "Loading leaderboard data...";
+
+	const int mFontSize = 36;
+	bool mHasSubmitted = false;
 
 };

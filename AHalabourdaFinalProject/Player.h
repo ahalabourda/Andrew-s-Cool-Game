@@ -57,7 +57,7 @@ private:
 
 	// powerup abilities
 	const int mSpread = 1;
-	const int mTicksPerShot = 8;
+	const int mTicksPerShot = 10;
 	int mTicksSinceLastShot = 0;
 
 	std::deque<Vector2> mRecentPositions;

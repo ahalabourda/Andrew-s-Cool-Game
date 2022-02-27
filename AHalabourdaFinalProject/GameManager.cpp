@@ -74,6 +74,7 @@ void GameManager::Draw() const
 
 void GameManager::StartGame()
 {
+    srand(static_cast<int>(time(NULL)));
     mCurrentGameState = GameState::Playing;
 }
 
@@ -81,7 +82,8 @@ void GameManager::EndGame()
 {
 
     // score submission!
-    
+    mLeaderboardManager->SubmitScore(mUserInfo.GetName(), mScore);
+    mLeaderboardManager->UpdateLeaderboardData();
 
     mCurrentGameState = GameState::PostGame;
 }

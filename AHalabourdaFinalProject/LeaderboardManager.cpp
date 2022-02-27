@@ -4,39 +4,21 @@
 #include <iostream>
 #include <sstream>
 
-// yay
-void LeaderboardManager::Testeroonie()
-{
 
-    try
-    {
-        // you can pass http::InternetProtocol::V6 to Request to make an IPv6 request
-        http::Request request{ "http://google.com/" };
-
-        // send a get request
-        const auto response = request.send("GET");
-        std::cout << std::string{ response.body.begin(), response.body.end() } << '\n'; // print the result
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << "Request failed, error: " << e.what() << '\n';
-    }
-
-}
-
-bool LeaderboardManager::SubmitScore(std::string pUsername, int pScore, int pMovespeedLevel, int pMultiplierLevel, int pDamageLevel, int pFirerateLevel, int pDurationInSeconds, int pAsteroidsExploded)
+bool LeaderboardManager::SubmitScore(std::string pUsername, int pScore)
 {
     
     std::stringstream ss;
 
-    ss << mBaseURL << "?username=" << pUsername << "&score=" << pScore << "&movespeed_level=" << pMovespeedLevel << "&multiplier_level=" << pMultiplierLevel << "&damage_level=" << pDamageLevel << "&firerate_level" << pFirerateLevel << "&duration_in_seconds=" << pDurationInSeconds << "&asteroids_exploded=" << pAsteroidsExploded;
+    ss << mBaseURL << "?username=" << pUsername << "&score=" << pScore;
     
     try {
         http::Request request{ ss.str() };
 
         const auto response = request.send("GET");
 
-        std::cout << std::string{ response.body.begin(), response.body.end() } << '\n'; // print the result
+        // print the result
+        std::cout << std::string{ response.body.begin(), response.body.end() } << '\n';
 
         return true;
     }
@@ -45,4 +27,23 @@ bool LeaderboardManager::SubmitScore(std::string pUsername, int pScore, int pMov
         return false;
     }
 
+}
+
+void LeaderboardManager::UpdateLeaderboardData()
+{
+
+    try {
+
+        // hardcoding this here is a little bad but oh well. would do this more nicely on a bigger project
+        http::Request request{ "http://spacetank.andrew.gg/get-leaderboards.php" };
+
+        const auto response = request.send();
+
+        mLeaderboardData = std::string{ response.body.begin(), response.body.end() };
+
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Submission failed: " << e.what() << std::endl;
+        mLeaderboardData = std::string("Error retrieving leaderboards");
+    }
 }

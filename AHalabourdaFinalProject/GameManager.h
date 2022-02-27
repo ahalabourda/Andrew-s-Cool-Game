@@ -5,6 +5,7 @@
 #include "ObjectPool.h"
 #include "Bullet.h"
 #include "UserInfo.h"
+#include "LeaderboardManager.h"
 #include <chrono>
 
 #ifndef  ARRAY_LENGTH
@@ -36,6 +37,8 @@ public:
 	int GetGameDurationInMilliseconds() const { return static_cast<int>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - mTimerBegin).count()); }
 
 	UserInfo & GetUserInfo() { return mUserInfo; }
+
+	void InitLeaderboardManager(LeaderboardManager& pLeaderboardManager) { mLeaderboardManager = &pLeaderboardManager; }
 
 private:
 
@@ -80,5 +83,7 @@ private:
 	UserInfo mUserInfo;
 
 	const Texture2D mBackground = LoadTexture("art/space.png");
+
+	LeaderboardManager* mLeaderboardManager = nullptr;
 
 };

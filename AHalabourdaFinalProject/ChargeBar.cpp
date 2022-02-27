@@ -35,6 +35,4 @@ void ChargeBar::InitializeChargeBarSize()
 	msWidth = static_cast<int>(GetScreenWidth() / 10.0f);
 	msHeight = static_cast<int>(GetScreenHeight() / 30.0f);
 	msBorderWidth = static_cast<int>(GetScreenWidth() / 100.0f);
-
-	std::cout << "Just set: " << msWidth << ", " << msHeight << ", " << msBorderWidth << std::endl;
 }
