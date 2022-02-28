@@ -1,0 +1,11 @@
+Some random thoughts about this project, mostly things that could be improved but I didn't have time for.
+
+- A few of my DrawRectanglePro() invocations are inconsistent. Sometimes I declare temporary Rectangles for the parameters, but sometimes I don't. I made the choice based on the complexity of the param Rectangles, but in a robust project I would standardize this process.
+- My steady_clock timers would probably work better if I just counted raylib's ticks instead, which I do in some places.
+- ObjectPool pattern is not as great as I expected it to be. Blame Unity experience! The differing needs of each child class' Tick() and Activate() functions made it hard to genericize this into the pool. Perhaps a dive into TPacks might have brought a solution to light. Also it would have been nice to make this happen on the stack since the Bullet and Enemy counts are known at compile time but I never got around to making that happen.
+- Upgrade and ChargeZone both store levels despite those always being the same. Not great data duplication. The Upgrade version is known to the player, while the ChargeZone version is known to the game manager. Yuck
+- I do a lot of assembling strings using stringstream, then outputting a std::string, then getting the c_str() from that. All to appease the DrawText() function which demands a C string. There's probably a way to do that in fewer steps
+- Upgrade levels should probably start at 0 which would simplify some of the upgrade math
+- GameManager ballooned well past the the single-responsibility principle... hard to picture how to do this better. More abstractions I suppose
+- Main loop is a pretty big mess. Very spaghetti
+- Some things in this game are resolution independent but not everything. If I wanted to do this properly I would create a kinda bootstrap-style abstraction where I'd let things grab fractions of the screen space, and do all positioning through that.
