@@ -1,7 +1,7 @@
 #include "Upgrade.h"
 
-Upgrade::Upgrade(UpgradeType type)
-	: mUpgradeType(type)
+Upgrade::Upgrade(UpgradeType pType)
+	: mUpgradeType(pType)
 {
 }
 
@@ -23,7 +23,5 @@ std::string Upgrade::GetName(Upgrade::UpgradeType pUpgradeType)
 
 void Upgrade::Reset()
 {
-
 	mCurrentLevel = 1;
-
 }

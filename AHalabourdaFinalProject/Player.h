@@ -5,10 +5,6 @@
 #include "ObjectPool.h"
 #include "Bullet.h"
 
-#ifndef ARRAY_LENGTH
-#define ARRAY_LENGTH(array) (sizeof((array))/sizeof((array)[0]))
-#endif // ! ARRAY_LENGTH
-
 class Player
 {
 
@@ -19,19 +15,16 @@ public:
 	void Tick();
 	void Draw() const;
 
-	void Move(float movementX, float movementY);
-	void Shoot(float directionX, float directionY);
+	void Move(float pMovementX, float pMovementY);
+	void Shoot(float pDirectionX, float pDirectionY);
 
-	const float GetActualDamage() const { return mDamage * static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::Damage)); }
-	const Color & GetColour() const { return mColour; }
+	float GetActualDamage() const { return mDamage * static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::Damage)); }
 	const Vector2 & GetPosition() const { return mPosition; }
-	float GetX() const { return mPosition.x; };
-	float GetY() const { return mPosition.y; };
 
 	const ObjectPool<Bullet>& GetBullets() const { return mBullets; }
 
-	void IncrementUpgradeLevel(const Upgrade::UpgradeType& type);
-	int GetUpgradeLevel(const Upgrade::UpgradeType& type) const;
+	void IncrementUpgradeLevel(Upgrade::UpgradeType pType);
+	int GetUpgradeLevel(Upgrade::UpgradeType pType) const;
 	
 	float GetLastBodyFacing() const { return mRecentBodyFacings.front(); }
 
@@ -48,31 +41,31 @@ private:
 	const float mDamage = 10.0f;
 	const float mSpeed = 3.5f;
 	const float mSpeedUpgradeValue = 1.0f;
-	const Color mColour { 0, 0, 0, 255 };
-	const Color mBorderColour{ 255, 255, 255, 255 };
-
-	const Texture2D mTankBody = LoadTexture("art/tank-body.png");
-	const Texture2D mTankGun = LoadTexture("art/tank-gun.png");
-	const float mTextureScale = 0.25f;
 
 	// powerup abilities
-	const int mSpread = 1;
-	const int mTicksPerShot = 10;
+	const int mTicksPerShot = 12;
 	int mTicksSinceLastShot = 0;
+
+	const float mTextureScale = 0.25f;
 
 	std::deque<Vector2> mRecentPositions;
 	std::deque<float> mRecentBodyFacings;
 	std::deque<float> mRecentGunFacings;
 
 	Vector2 mPosition;
-	//Vector2 mPosition{ static_cast<float>(GetScreenWidth() / 2), static_cast<float>(GetScreenHeight() / 2) };
 
 	Upgrade mUpgrades[4] = { Upgrade(Upgrade::UpgradeType::MoveSpeed), Upgrade(Upgrade::UpgradeType::ScoreMultiplier), Upgrade(Upgrade::UpgradeType::Damage), Upgrade(Upgrade::UpgradeType::FireRate)};
 
-	// bullet count is framerate * shots/sec + 5 for safety
-	ObjectPool<Bullet> mBullets = ObjectPool<Bullet>(185);
+	// max upgraded fire rate is ~8.5/sec (60 ticks / 7 ticks per shot), with 3 second lifespan, for a worst case scenario of 26 existing bullets at a time. rounding to 32 for safety and base2 niceness
+	ObjectPool<Bullet> mBullets = ObjectPool<Bullet>(32);
+
+	const Texture2D mTankBody = LoadTexture("art/tank-body.png");
+	const Texture2D mTankGun = LoadTexture("art/tank-gun.png");
 
 	const int GetActualTicksPerShot() const { return mTicksPerShot - GetUpgradeLevel(Upgrade::UpgradeType::FireRate); }
+
+	void Spawn();
 	void SetRandomStartPosition();
+	void SetFixedStartPosition(float pX, float pY);
 	
 };

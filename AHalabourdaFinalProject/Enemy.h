@@ -8,7 +8,7 @@ class Enemy : public Poolable
 
 public:
 	
-	void Tick(const Vector2 & targetPosition);
+	void Tick(const Vector2 & pTargetPosition);
 
 	void Draw() const;
 	bool GetIsActive() const { return mIsActive; }
@@ -41,15 +41,16 @@ private:
 
 	std::chrono::steady_clock::time_point mTimerBegin;
 	
+	Rectangle mRect{ 0, 0, msSize, msSize };
+	Vector2 mPosition{ 0, 0 };
+
 	// "inline" here is a c++17 thing that allows us to initialize static const member variables in-class rather than in the .cpp. very nice
 	inline static const float msSize = 20.0f;
 	inline static const float msGrowthRate = 1.1f;
 	inline static const Color msColour{ 180, 180, 180, 255 };
 	inline static const float msSpeed = 2.0f;
 	float mTextureScale = 1.0f;
-
-	Vector2 mPosition { 0, 0 };
-	Rectangle mRect{ 0, 0, msSize, msSize };
+	
 
 	// yay it's static now
 	static Texture2D mSprite;

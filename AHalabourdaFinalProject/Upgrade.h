@@ -8,7 +8,7 @@ public:
 	enum class UpgradeType { MoveSpeed, ScoreMultiplier, Damage, FireRate};
 
 	Upgrade() = delete;
-	Upgrade(UpgradeType type);
+	Upgrade(UpgradeType pType);
 
 	void Increment() { mCurrentLevel++; }
 	int GetCurrentLevel() const { return mCurrentLevel; }

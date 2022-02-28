@@ -1,5 +1,4 @@
 #include "ChargeBar.h"
-#include <iostream>
 
 int ChargeBar::msWidth;
 int ChargeBar::msHeight;
@@ -8,16 +7,14 @@ int ChargeBar::msBorderWidth;
 void ChargeBar::Draw(const Vector2& pCenterPosition, const Color& pColour) const
 {
 
-	
-
 	// here's the border
 	DrawRectangle(	(static_cast<int>(pCenterPosition.x) - ((msWidth + msBorderWidth) / 2)), // centering ourselves within our quadrant
 					(static_cast<int>(pCenterPosition.y) - (msBorderWidth / 2)),
-					(msWidth + msBorderWidth ),
+					(msWidth + msBorderWidth),
 					(msHeight + msBorderWidth),
 					mBorderColor);
 
-	// here's the contents
+	// here's the "fill"
 	DrawRectangle(	(static_cast<int>(pCenterPosition.x) - (msWidth / 2)), // centering ourselves within our quadrant
 					static_cast<int>(pCenterPosition.y),
 					static_cast<int>(msWidth * (mFillCurrent / msFillMax)), // filling based on charge level

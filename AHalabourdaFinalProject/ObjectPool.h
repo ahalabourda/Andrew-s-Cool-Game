@@ -7,7 +7,7 @@ class ObjectPool
 public:
 
 	ObjectPool<T>() = delete;
-	ObjectPool<T>(int desiredSize);
+	ObjectPool<T>(int pDesiredSize);
 	~ObjectPool<T>();
 
 	T* GetNextAvailable() const;

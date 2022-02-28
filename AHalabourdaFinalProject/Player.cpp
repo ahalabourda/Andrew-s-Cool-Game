@@ -1,25 +1,30 @@
 #include "Player.h"
-#include "raymath.h"
 #include "SoundManager.h"
-#include <math.h>
 #include <algorithm>
-#include <iostream>
+
+#ifndef  ARRAY_LENGTH
+#define ARRAY_LENGTH(array) (sizeof((array))/sizeof((array)[0]))
+#endif // ! ARRAY_LENGTH
 
 Player::Player()
 {
 
-	// random start position
-	SetRandomStartPosition();
+
+	Spawn();
 
 	// prefill smoothing queues
 	int facingsToStore = 15;
 	int positionsToStore = 30;
 
+	// these allow us to smooth out the turning animations of the tank and the cannon
+	// i went back and forth a few times on whether or not the cannon should instantly turn or be smoothed
+	// at present it's instant, which makes the gun facings useless.. but i think it could go either way so i'm leaving this in
 	for (int i = 0; i < facingsToStore; i++) {
 		mRecentBodyFacings.emplace_back(0.0f);
 		mRecentGunFacings.emplace_back(0.0f);
 	}
 
+	// tank position is NOT smoothed but we use these values to smooth the shifting of the background stars! so cool
 	for (int i = 0; i < positionsToStore; i++) {
 		mRecentPositions.emplace_back(mPosition);
 	}
@@ -40,15 +45,17 @@ void Player::Tick()
 	}
 }
 
-void Player::Move(float movementX, float movementY)
+void Player::Move(float pMovementX, float pMovementY)
 {
 
-	mPosition.x = std::clamp(mPosition.x + (movementX * (mSpeed + static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed) * mSpeedUpgradeValue))), 0.0f, static_cast<float>(GetScreenWidth()));
-	mPosition.y = std::clamp(mPosition.y + (movementY * (mSpeed + static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed) * mSpeedUpgradeValue))), 0.0f, static_cast<float>(GetScreenHeight()));
+	// move the player, modified by movespeed powerup level, clamped between 0 and screensize so we don't escape the play area
+	mPosition.x = std::clamp(mPosition.x + (pMovementX * (mSpeed + static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed) * mSpeedUpgradeValue))), 0.0f, static_cast<float>(GetScreenWidth()));
+	mPosition.y = std::clamp(mPosition.y + (pMovementY * (mSpeed + static_cast<float>(GetUpgradeLevel(Upgrade::UpgradeType::MoveSpeed) * mSpeedUpgradeValue))), 0.0f, static_cast<float>(GetScreenHeight()));
 
-	if (movementX != 0.0f || movementY != 0.0f) {
+	// only log a facing if we actually moved this tick
+	if (pMovementX != 0.0f || pMovementY != 0.0f) {
 		mRecentBodyFacings.pop_back();
-		mRecentBodyFacings.push_front(((atan2f(movementX, -movementY) * 180 / PI)));
+		mRecentBodyFacings.push_front(((atan2f(pMovementX, -pMovementY) * 180 / PI)));
 	}
 
 	mRecentPositions.pop_back();
@@ -56,19 +63,23 @@ void Player::Move(float movementX, float movementY)
 
 }
 
-void Player::Shoot(float directionX, float directionY)
+// *attempts* to shoot, and only succeeds if our gun has cooled down (enough ticks have passed)
+void Player::Shoot(float pDirectionX, float pDirectionY)
 {
 
+	// abstracting out the upgrade-modified fire rate
 	if (mTicksSinceLastShot > GetActualTicksPerShot()) {
 		mTicksSinceLastShot = 0;
-		mBullets.GetNextAvailable()->Activate(mPosition, atan2f(directionY, directionX), GetUpgradeLevel(Upgrade::UpgradeType::Damage));
+		mBullets.GetNextAvailable()->Activate(mPosition, atan2f(pDirectionY, pDirectionX), GetUpgradeLevel(Upgrade::UpgradeType::Damage));
 		SoundManager::TriggerSound(SoundManager::SoundKey::Gunshot);
 	}
 
-	if (directionX != 0.0f || directionY != 0.0f) {
+	// log a gun facing if we moved the joystick this tick
+	if (pDirectionX != 0.0f || pDirectionY != 0.0f) {
 		mRecentGunFacings.pop_back();
-		mRecentGunFacings.push_front(atan2f(directionX, -directionY) * 180 / PI);
+		mRecentGunFacings.push_front(atan2f(pDirectionX, -pDirectionY) * 180 / PI);
 	}
+
 }
 
 void Player::Draw() const
@@ -98,9 +109,9 @@ void Player::Draw() const
 
 }
 
-void Player::IncrementUpgradeLevel(const Upgrade::UpgradeType& type)
+void Player::IncrementUpgradeLevel(Upgrade::UpgradeType pType)
 {
-	switch (type) {
+	switch (pType) {
 		case Upgrade::UpgradeType::MoveSpeed:
 			mUpgrades[0].Increment();
 			break;
@@ -115,13 +126,14 @@ void Player::IncrementUpgradeLevel(const Upgrade::UpgradeType& type)
 			break;
 	}
 
+	// ding! grats
 	SoundManager::TriggerSound(SoundManager::SoundKey::UpgradeDing);
 
 }
 
-int Player::GetUpgradeLevel(const Upgrade::UpgradeType& type) const
+int Player::GetUpgradeLevel(Upgrade::UpgradeType pType) const
 {
-	switch (type) {
+	switch (pType) {
 		case Upgrade::UpgradeType::MoveSpeed:
 			return mUpgrades[0].GetCurrentLevel();
 		case Upgrade::UpgradeType::ScoreMultiplier:
@@ -135,17 +147,16 @@ int Player::GetUpgradeLevel(const Upgrade::UpgradeType& type) const
 	}
 }
 
-// some necessary fancy footwork here because we want the average of 359 degrees and 1 degree to be 0, but when computed naively it averages to 180 (which is technically correct, but is not useful for our purposes)
-// had to steal the math from: https://www.themathdoctors.org/averaging-angles/
-// good thing to learn though
+// some necessary gymnastics here because we want the average of 359 degrees and 1 degree to be 0, but when computed naively it averages to 180 (which is technically correct, but is not useful for our purposes)
+// math stolen from: https://www.themathdoctors.org/averaging-angles/
 float Player::GetSmoothedAngle(const std::deque<float>& pAngles) const
 {
 	float totalCosValues = 0.0f;
 	float totalSinValues = 0.0f;
 
 	for (int i = 0; i < pAngles.size(); i++) {
-		totalCosValues += cos(pAngles[i] * (PI / 180));
-		totalSinValues += sin(pAngles[i] * (PI / 180));
+		totalCosValues += cosf(pAngles[i] * (PI / 180));
+		totalSinValues += sinf(pAngles[i] * (PI / 180));
 	}
 
 	return atan2f(totalSinValues, totalCosValues) * (180 / PI);
@@ -168,8 +179,7 @@ Vector2 Player::GetSmoothedPosition(const std::deque<Vector2>& pPositions) const
 void Player::Reset()
 {
 
-	// random start position
-	SetRandomStartPosition();
+	Spawn();
 
 	for (int i = 0; i < ARRAY_LENGTH(mUpgrades); i++) {
 		mUpgrades[i].Reset();
@@ -218,4 +228,44 @@ void Player::SetRandomStartPosition()
 	}
 
 	mPosition = Vector2{ (GetScreenWidth() / 2.0f) - xMod, (GetScreenHeight() / 2.0f) - yMod };
+}
+
+void Player::SetFixedStartPosition(float pX, float pY)
+{
+	
+	float xMod = 0;
+	float yMod = 0;
+
+	if (pX >= 0.0f) {
+		xMod = GetScreenWidth() / -10.0f;
+	}
+	else {
+		xMod = GetScreenWidth() / 10.0f;
+	}
+
+	if (pY >= 0.0f) {
+		yMod = GetScreenHeight() / -10.0f;
+	}
+	else {
+		yMod = GetScreenHeight() / 10.0f;
+	}
+
+	mPosition = Vector2{ (GetScreenWidth() / 2.0f) - xMod, (GetScreenHeight() / 2.0f) - yMod };
+}
+
+void Player::Spawn()
+{
+
+	// secret feature to force spawn quadrant
+	float x = GetGamepadAxisMovement(0, 0);
+	float y = GetGamepadAxisMovement(0, 1);
+
+	if (x != 0.0f && y != 0.0f) {
+		SetFixedStartPosition(x, y);
+	}
+	else {
+		// random start position
+		SetRandomStartPosition();
+	}
+
 }

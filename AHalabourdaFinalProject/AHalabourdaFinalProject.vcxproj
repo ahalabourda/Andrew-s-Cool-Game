@@ -343,7 +343,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Upgrade.cpp" />
-    <ClCompile Include="UserInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet.h" />

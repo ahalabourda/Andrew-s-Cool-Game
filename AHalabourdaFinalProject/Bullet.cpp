@@ -2,7 +2,6 @@
 #include "raylib.h"
 #include "Bullet.h"
 #include <math.h>
-#include <iostream>
 
 Texture2D Bullet::mSprites[5];
 
@@ -55,11 +54,9 @@ void Bullet::Tick()
 
 void Bullet::InitializeSprites()
 {
-
 	Bullet::mSprites[0] = LoadTexture("art/bullet1.png");
 	Bullet::mSprites[1] = LoadTexture("art/bullet2.png");
 	Bullet::mSprites[2] = LoadTexture("art/bullet3.png");
 	Bullet::mSprites[3] = LoadTexture("art/bullet4.png");
 	Bullet::mSprites[4] = LoadTexture("art/bullet5.png");
-
 }

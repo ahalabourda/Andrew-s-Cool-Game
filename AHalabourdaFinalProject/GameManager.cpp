@@ -1,5 +1,4 @@
 #include "GameManager.h"
-#include <iostream>
 #include <sstream>
 #include <string>
 
@@ -22,6 +21,7 @@ void GameManager::Tick()
         mCurrentDifficultyLevel++;
     }
 
+    // this is required to actually play a music stream with raylib. hmm
     UpdateMusicStream(*SoundManager::GetMusic());
 
 }
@@ -30,8 +30,6 @@ void GameManager::Draw() const
 {
 
     // space!
-    //DrawTexture(mBackground, 0, 0, WHITE);
-
     float offsetX = -((GetScreenWidth() / 2.0f) - mPlayer.GetSmoothedPosition(mPlayer.GetRecentPositions()).x) * .1f;
     float offsetY = -((GetScreenHeight() / 2.0f) - mPlayer.GetSmoothedPosition(mPlayer.GetRecentPositions()).y) * .1f;
 
@@ -52,24 +50,24 @@ void GameManager::Draw() const
     // bullets
     mPlayer.GetBullets().Draw();
 
+    // player
     mPlayer.Draw();
 
+    // enemy
     mEnemies.Draw();
 
-    // score!
+    // hud zone!
+
+    // score
     std::stringstream ss;
     ss << "Score: " << mScore;
     std::string tmp = ss.str();
-
-    // draw score hud element
     DrawText(tmp.c_str(), GetScreenWidth() / 100, GetScreenHeight() - mFontSize, mFontSize, mHudColour);
 
-    // current level stuff
-    ss.str("");
+    // current level
+    ss.str(""); // reusing the stringstream. so sick..
     ss << "Level: " << mCurrentDifficultyLevel;
     tmp = ss.str();
-
-    // draw "current level" hud element
     DrawText(tmp.c_str(), GetScreenWidth() - (GetScreenWidth() / 100) - (MeasureText(tmp.c_str(), mFontSize)), GetScreenHeight() - mFontSize, mFontSize, mHudColour);
 
 }
@@ -86,8 +84,8 @@ void GameManager::EndGame()
 {
 
     // score submission!
-    mLeaderboardManager->SubmitScore(mUserInfo.GetName(), mScore);
-    mLeaderboardManager->UpdateLeaderboardData();
+    mLeaderboardManager.SubmitScore(mUserInfo.GetName(), mScore);
+    mLeaderboardManager.FetchLeaderboardData();
 
     SoundManager::TriggerSound(SoundManager::SoundKey::PlayerDeath);
     SoundManager::StopMusic();
@@ -129,7 +127,9 @@ void GameManager::ProcessSpawning()
             mEnemies.GetNextAvailable()->Activate();
         }
         catch (std::exception e) {
-            std::cerr << "Failed to spawn an enemy, but not crashing :)" << std::endl;
+            // Failed to spawn an enemy, but not crashing :)
+            // this used to have a std::cerr but i'm building for release so no error messages..
+            // if i'm not doing anything on the catch then maybe this exception throw is useless. hmm
         }
     }
 
@@ -198,12 +198,12 @@ void GameManager::ProcessZones()
             if (CheckCollisionPointRec(mPlayer.GetPosition(), mZones[i].GetTriggerRect())) {
                 mActiveZone = &mZones[i];
                 mActiveZone->SetIsActive(true);
-
             }
         }
 
     }
 
+    // only tick the active zone
     if (mActiveZone->Tick() == true) {
         mPlayer.IncrementUpgradeLevel(mActiveZone->GetUpgradeType());
     }
@@ -212,5 +212,5 @@ void GameManager::ProcessZones()
 // multiplies the spawn rate by .8 each time we move up a level
 int GameManager::GetActualTicksPerEnemySpawn() const
 {
-    return mTicksPerEnemySpawnBase * static_cast<int>(std::powf(mEnemySpawnAccelerationRate, mCurrentDifficultyLevel - 1.0f));
+    return mTicksPerEnemySpawnBase * std::powf(mEnemySpawnAccelerationRate, static_cast<float>(mCurrentDifficultyLevel) - 1.0f);
 }

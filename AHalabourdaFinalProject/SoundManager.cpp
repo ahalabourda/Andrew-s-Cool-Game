@@ -1,6 +1,4 @@
 #include "SoundManager.h"
-#include <iostream>
-
 
 std::map<SoundManager::SoundKey, Sound> SoundManager::mSounds;
 Music SoundManager::mMusic;
@@ -19,17 +17,14 @@ void SoundManager::InitializeSounds()
 
 	}
 	else {
-		std::cerr << "Already initialized sounds!" << std::endl;
+		throw std::exception("Already initialized sounds!");
 	}
 	
 }
 
 void SoundManager::TriggerSound(SoundManager::SoundKey pSoundKey)
 {
-	
-	// wow this is annoying
 	PlaySoundMulti(mSounds.find(pSoundKey)->second);
-
 }
 
 void SoundManager::StartMusic()

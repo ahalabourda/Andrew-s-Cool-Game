@@ -2,8 +2,8 @@
 #pragma once
 
 template<class T>
-ObjectPool<T>::ObjectPool(int desiredSize)
-	: mSize(desiredSize)
+ObjectPool<T>::ObjectPool(int pDesiredSize)
+	: mSize(pDesiredSize)
 	, mItems(new T[mSize])
 {
 }
@@ -11,10 +11,8 @@ ObjectPool<T>::ObjectPool(int desiredSize)
 template<class T>
 ObjectPool<T>::~ObjectPool()
 {
-
 	delete[] mItems;
 	mItems = nullptr;
-
 }
 
 template<class T>

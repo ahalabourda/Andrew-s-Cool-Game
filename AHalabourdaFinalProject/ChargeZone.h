@@ -13,12 +13,10 @@ public:
 
 	Rectangle GetTriggerRect() const { return mTrigger; }
 
-	
 	bool GetIsActive() const { return mIsActive; }
-	void SetIsActive(bool newValue) { mIsActive = newValue; }
+	void SetIsActive(bool pActive) { mIsActive = pActive; }
 	int GetCurrentLevel() const { return mCurrentLevel; }
-	//void IncrementLevel() { ++mCurrentLevel; mChargeAmountPerTick *= msChargeSlowdownModifier; if (mCurrentLevel > mLevelMax) { mCurrentLevel = mLevelMax; } }
-	void IncrementLevel() { ++mCurrentLevel; if (mCurrentLevel > mLevelMax) { mCurrentLevel = mLevelMax; } }
+	void IncrementLevel();
 	bool IsMaxed() const { return mCurrentLevel >= mLevelMax; }
 
 	Upgrade::UpgradeType GetUpgradeType() const { return mUpgradeType; }
@@ -43,23 +41,23 @@ private:
 	Color mInactiveColour; 
 	Color mActiveColour;
 	Color mBarColour;
+	
 	inline static const Color mLabelColour{ 255, 255, 255, 200 };
-
 	inline static const int mLabelFontSize = 18;
 
 	inline static const float msChargeValueMax = 100.0f;
-	inline static const float msChargeSlowdownModifier = 0.8f;
+	inline static const float msChargeSlowdownModifier = 0.7f;
 	inline static const float mChargeAmountPerTick = 0.2f;
-	inline static const float mDrainAmountPerTick = 0.2f;
 	float mChargeValueCurrent = 0.0f;
 
 	int mCurrentLevel = 1;
 	inline static const int mLevelMax = 5;
 
 	bool mIsActive = false;
+	bool mIsMaxed = false;
 
-	static float GetWidth() { return static_cast<float>(GetScreenWidth() / 2.0f); }
-	static float GetHeight() { return static_cast<float>(GetScreenHeight() / 2.0f); }
+	static float GetWidth() { return GetScreenWidth() / 2.0f; }
+	static float GetHeight() { return GetScreenHeight() / 2.0f; }
 	float GetActualChargeAmountPerTick() const;
 
 };

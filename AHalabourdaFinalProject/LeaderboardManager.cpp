@@ -1,7 +1,6 @@
 #include "LeaderboardManager.h"
 #include "HTTPHeader.hpp"
 #include "json.hpp"
-#include <iostream>
 #include <sstream>
 
 
@@ -17,19 +16,15 @@ bool LeaderboardManager::SubmitScore(std::string pUsername, int pScore)
 
         const auto response = request.send("GET");
 
-        // print the result
-        std::cout << std::string{ response.body.begin(), response.body.end() } << '\n';
-
         return true;
     }
-    catch (const std::exception& e) {
-        std::cerr << "Submission failed: " << e.what() << std::endl;
+    catch (...) {
         return false;
     }
 
 }
 
-void LeaderboardManager::UpdateLeaderboardData()
+void LeaderboardManager::FetchLeaderboardData()
 {
 
     try {
@@ -42,8 +37,8 @@ void LeaderboardManager::UpdateLeaderboardData()
         mLeaderboardData = std::string{ response.body.begin(), response.body.end() };
 
     }
-    catch (const std::exception& e) {
-        std::cerr << "Submission failed: " << e.what() << std::endl;
-        mLeaderboardData = std::string("Error retrieving leaderboards");
+    catch (...) {
+        mLeaderboardData = std::string("Error retrieving leaderboards!");
     }
+
 }

@@ -11,7 +11,6 @@
 #include "raylib.h"
 #include <string>
 #include <chrono>
-#include <iostream>
 
 // my stuff
 #include "Player.h"
@@ -43,10 +42,10 @@ int main(void)
     GameManager gm;
 
     // leaderboard management! http requests!
-    LeaderboardManager lm;
+    //LeaderboardManager lm;
 
     // game manager has to be able to provide username/scores to the leaderboard manager
-    gm.InitLeaderboardManager(lm);
+    //gm.InitLeaderboardManager(lm);
 
     // these static methods exist because we don't want to duplicate the sounds/textures that enemies use
     // BUT raylib's LoadTexture() and LoadSound() methods only work after some runtime init stuff has happened
@@ -187,7 +186,7 @@ int main(void)
                 DrawText("Press any button to play again!", 50, GetScreenHeight() - 100, 50, WHITE);
 
                 // draws the leaderboards!
-                DrawText(lm.GetLeaderboardData().c_str(), static_cast<int>( GetScreenWidth() - (MeasureText(lm.GetLeaderboardData().c_str(), lm.GetFontSize()) + lm.GetFontSize() * 2.0f ) ), GetScreenHeight() / 12, lm.GetFontSize(), WHITE);
+                DrawText(gm.GetLeaderboardManager().GetLeaderboardData().c_str(), static_cast<int>( GetScreenWidth() - (MeasureText(gm.GetLeaderboardManager().GetLeaderboardData().c_str(), gm.GetLeaderboardManager().GetFontSize()) + gm.GetLeaderboardManager().GetFontSize() * 2.0f ) ), GetScreenHeight() / 12, gm.GetLeaderboardManager().GetFontSize(), WHITE);
 
                 EndDrawing();
 
